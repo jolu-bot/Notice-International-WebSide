@@ -43,6 +43,7 @@ export const SECTION_GROUPS: Array<{ title: string; sections: Array<{ key: strin
       { key: 'forms', label: 'Formulaires (libellés & listes)' },
       { key: 'newsletter', label: 'Lettre d’information' },
       { key: 'whatsapp', label: 'Bouton WhatsApp' },
+      { key: 'assistant', label: 'Assistant Écho', hint: 'Nom, messages d’accueil, suggestions et libellés. Ses connaissances viennent automatiquement des autres contenus du site.' },
       { key: 'cookies', label: 'Bandeau cookies' },
       { key: 'common', label: 'Libellés communs' },
       { key: 'preloader', label: 'Écran d’ouverture' },

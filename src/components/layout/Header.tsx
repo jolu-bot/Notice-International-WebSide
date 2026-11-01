@@ -11,7 +11,8 @@ import { Logo } from '../brand/Logo';
 import { TLink, Btn } from '../fx/TLink';
 import { useExperience } from '../fx/Experience';
 import { Socials } from '../ui/Socials';
-import { Close } from '../ui/Icons';
+import { Close, UserLock } from '../ui/Icons';
+import { ThemeMenu, ThemeSwitch } from '../fx/Theme';
 
 type Props = { locale: Locale; nav: Content['nav']; easter: Content['easter']; settings: Settings };
 
@@ -94,7 +95,7 @@ export function Header({ locale, nav, easter, settings }: Props) {
             ))}
           </nav>
 
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2 sm:gap-3">
             <div className="lang-switch" role="group" aria-label="Langue / Language">
               {(['fr', 'en'] as Locale[]).map((l) => (
                 <a key={l} href={l === locale ? undefined : switchLocalePath(pathname, l)} hrefLang={l} lang={l} aria-current={l === locale ? 'true' : undefined}
@@ -103,7 +104,12 @@ export function Header({ locale, nav, easter, settings }: Props) {
                 </a>
               ))}
             </div>
-            <span className="hidden xl:block"><Btn href={href(locale, 'appointment')} size="sm">{nav.cta}</Btn></span>
+            <ThemeMenu locale={locale} className="max-sm:hidden" />
+            {/* Espace d'administration : page à part (pas de transition animée) */}
+            <a href="/admin" className="login-link max-xl:!w-12 max-xl:justify-center max-xl:!px-0" aria-label={`${nav.login} — ${nav.loginHint}`} title={nav.loginHint}>
+              <UserLock size={18} /><span className="hidden xl:inline">{nav.login}</span>
+            </a>
+            <span className="hidden 2xl:block"><Btn href={href(locale, 'appointment')} size="sm">{nav.cta}</Btn></span>
             <button className="burger" aria-expanded={open} aria-controls="menu-overlay" aria-label={open ? nav.close : nav.menu} onClick={() => setOpen((o) => !o)} data-magnetic="0.3">
               <span /><span />
             </button>
@@ -135,13 +141,17 @@ export function Header({ locale, nav, easter, settings }: Props) {
                 <p className="pt-2 text-sm">{settings.address.street}, {settings.address.district} — {settings.address.city}, {settings.address.country}</p>
               </div>
               <Socials settings={settings} />
+              <div className="space-y-3">
+                <ThemeSwitch locale={locale} tabIndex={open ? 0 : -1} />
+                <a href="/admin" className="login-link w-fit" tabIndex={open ? 0 : -1}><UserLock size={18} /> {nav.login} · {nav.loginHint}</a>
+              </div>
             </div>
           </div>
         </div>
       </div>
 
       {egg && (
-        <div ref={eggRef} className="fixed inset-0 z-[160] grid place-items-center bg-[rgb(7_10_23/.94)] p-6 text-center backdrop-blur" role="dialog" aria-modal="true" aria-label={easter.title} onClick={() => setEgg(false)}>
+        <div ref={eggRef} className="force-dark fixed inset-0 z-[160] grid place-items-center !bg-[rgb(7_10_23/.94)] p-6 text-center backdrop-blur" role="dialog" aria-modal="true" aria-label={easter.title} onClick={() => setEgg(false)}>
           <div>
             <div className="mx-auto mb-10 w-[min(70vw,360px)]"><Logo /></div>
             <div className="egg-text">

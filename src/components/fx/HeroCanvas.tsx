@@ -3,6 +3,7 @@
 import { useEffect, useRef } from 'react';
 import { FACETS, MARK, MOUTH, LOGO_VIEWBOX } from '../brand/logo-data';
 import { PRELOAD_EVENT } from './Preloader';
+import { THEME_EVENT } from './Theme';
 
 const PALETTE: Record<string, string> = { orange: '#f39200', red: '#e2001a', navy: '#2b4fd8', blue: '#1a8fe0' };
 
@@ -52,6 +53,8 @@ export function HeroCanvas({ className }: { className?: string }) {
       FACETS.forEach((f) => { o.fillStyle = PALETTE[f.color]; o.fill(new Path2D(f.d)); });
       o.fillStyle = PALETTE.navy; o.fill(new Path2D(MARK));
       const data = o.getImageData(0, 0, off.width, off.height).data;
+      // La bouche prend la couleur du texte : crème en mode sombre, encre en mode clair
+      const mouthColor = getComputedStyle(canvas).getPropertyValue('--fg').trim() || '#f5efe4';
       const gap = mobile ? 7 : W > 1600 ? 7 : 6;
       const next: P[] = [];
       for (let y = 0; y < off.height; y += gap) {
@@ -61,7 +64,7 @@ export function HeroCanvas({ className }: { className?: string }) {
           const r = data[i], g = data[i + 1], b = data[i + 2];
           const white = r > 230 && g > 230 && b > 230;
           if (white && (x / gap + y / gap) % 2 === 1) continue; // bouche plus aérée
-          const c = white ? 'rgba(245,239,228,0.85)' : `rgb(${r},${g},${b})`;
+          const c = white ? mouthColor : `rgb(${r},${g},${b})`;
           const prev = particles[next.length];
           next.push({
             x: prev ? prev.x : Math.random() * W, y: prev ? prev.y : Math.random() * H,
@@ -177,6 +180,7 @@ export function HeroCanvas({ className }: { className?: string }) {
     host.addEventListener('pointerdown', onClick);
     window.addEventListener('scroll', onScroll, { passive: true });
     window.addEventListener('resize', onResize);
+    window.addEventListener(THEME_EVENT, onResize);
     document.addEventListener('visibilitychange', onVis);
 
     return () => {
@@ -189,6 +193,7 @@ export function HeroCanvas({ className }: { className?: string }) {
       host.removeEventListener('pointerdown', onClick);
       window.removeEventListener('scroll', onScroll);
       window.removeEventListener('resize', onResize);
+      window.removeEventListener(THEME_EVENT, onResize);
       window.removeEventListener(PRELOAD_EVENT, start);
       document.removeEventListener('visibilitychange', onVis);
     };

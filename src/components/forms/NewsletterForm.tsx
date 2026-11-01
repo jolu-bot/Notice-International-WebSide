@@ -31,7 +31,7 @@ export function NewsletterForm({ locale, t }: { locale: Locale; t: Content['news
         <input id="nl-email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder={t.placeholder} autoComplete="email"
           className="min-w-0 flex-1 bg-transparent py-2 text-sm outline-none placeholder:text-[var(--muted)]" />
         <button type="submit" disabled={status === 'sending'} aria-label={t.button}
-          className="grid h-10 w-10 flex-none place-items-center rounded-full bg-[var(--c-cream)] text-[var(--c-ink)] transition-transform hover:scale-105 disabled:opacity-60">
+          className="grid h-10 w-10 flex-none place-items-center rounded-full bg-[var(--btn-bg)] text-[var(--btn-fg)] transition-transform hover:scale-105 disabled:opacity-60">
           {status === 'sending' ? <span className="h-3.5 w-3.5 animate-spin rounded-full border-2 border-current border-t-transparent" /> : <ArrowRight size={16} />}
         </button>
       </div>

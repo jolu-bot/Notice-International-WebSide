@@ -41,6 +41,8 @@ export const en: Content = {
     close: 'Close',
     cta: 'Book a meeting',
     skip: 'Skip to content',
+    login: 'Sign in',
+    loginHint: 'Team area',
     menuTagline: 'This time, make yourself heard.',
   },
 
@@ -807,6 +809,36 @@ export const en: Content = {
     backToTop: 'Back to top',
   },
 
+  assistant: {
+    name: 'Echo',
+    role: 'Notice International’s assistant',
+    status: 'Online · English & French',
+    launcher: 'A question? Ask Echo',
+    teaser: 'Hello! I’m Echo, Notice International’s assistant. A question about our services, a quote, a meeting? I’ll point you the right way.',
+    introKicker: 'Echo · your assistant',
+    introTitle: 'Get yourself heard.',
+    introText: 'Services, work, solar, meetings, quotes… Ask away: I answer straight away and, when needed, I put you in touch with management.',
+    chips: ['What do you offer?', 'I’d like a quote', 'Book a meeting', 'Install solar power', 'Where are you located?', 'Talk to the director'],
+    placeholder: 'Type your message…',
+    send: 'Send',
+    listen: 'Dictate my message',
+    listening: 'I’m listening…',
+    reset: 'New conversation',
+    close: 'Close',
+    open: 'Open Echo, the assistant',
+    thinking: 'Echo is thinking',
+    handoffTitle: 'Let me hand you over',
+    handoffText: 'Someone from the team will answer you directly:',
+    recommended: 'Recommended',
+    call: 'Call',
+    whatsapp: 'WhatsApp',
+    handoffMessage: 'Hello, Echo (the website assistant) referred me to you. My request: ',
+    error: 'I can’t answer right now. The team, however, is reachable straight away:',
+    disclaimer: 'Echo can make mistakes: prices, timelines and commitments are always confirmed by the team.',
+    privacy: 'Privacy',
+    you: 'You',
+  },
+
   whatsapp: {
     fab: 'Chat on WhatsApp',
     title: 'A human answer, right now.',
@@ -843,7 +875,7 @@ export const en: Content = {
   },
 
   legal: {
-    updated: 'Last updated: 31 October 2026',
+    updated: 'Last updated: 1 November 2026',
     notice: {
       title: 'Legal notice',
       body: `## Publisher
@@ -906,6 +938,9 @@ Your data is never sold or rented, and never used for third-party marketing.
 ## Recipients
 Your data is intended solely for authorised NOTICE INTERNATIONAL staff. It is hosted by our technical processors, bound by strict confidentiality and security obligations: Vercel Inc. (website hosting), Supabase Inc. (database hosted in the European Union) and, where applicable, our e-mail delivery provider. As some of these providers may be located outside Cameroon, such transfers are governed by appropriate contractual safeguards.
 
+## Echo assistant
+The “Echo” chat assistant answers your questions using the information published on this website. Your messages are used solely to compose the answer: they are not stored in our database, and the conversation is only kept in your browser for the duration of your visit. When the assistant relies on an artificial intelligence model, your messages are sent in encrypted form to our processor Anthropic PBC, which handles them on our behalf. Please do not enter sensitive information. Voice dictation, if you turn it on, uses your browser’s speech recognition service.
+
 ## Retention periods
 - Contact, appointment and quote requests: 3 years from the last exchange.
 - Job applications: 2 years, unless you ask for earlier deletion.
@@ -913,7 +948,7 @@ Your data is intended solely for authorised NOTICE INTERNATIONAL staff. It is ho
 - Traffic statistics: 24 months maximum, in aggregated form.
 
 ## Security
-The site is served exclusively over HTTPS. Access to data is restricted by named accounts, roles and database-level security rules; passwords are encrypted and every content change is logged.
+The site is served exclusively over HTTPS, with a strict content security policy that blocks any third-party script. Access to data is restricted by named accounts, roles and database-level security rules; passwords are encrypted, admin sessions close after a period of inactivity, form submissions are rate-limited to block abuse, and every content change is logged.
 
 ## Your rights
 You have the right to access, rectify, erase, object to, restrict and port your data, and to withdraw your consent at any time. To exercise these rights, write to {email} stating your request; we will respond within one month. You may also contact the competent data protection authority.

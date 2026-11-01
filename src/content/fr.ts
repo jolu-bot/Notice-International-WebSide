@@ -45,6 +45,8 @@ export const fr = {
     cta: 'Prendre rendez-vous',
     skip: 'Aller au contenu',
     menuTagline: 'Cette fois, faites-vous écouter.',
+    login: 'Connexion',
+    loginHint: 'Espace équipe',
   },
 
   common: {
@@ -837,6 +839,36 @@ export const fr = {
     backToTop: 'Haut de page',
   },
 
+  assistant: {
+    name: 'Écho',
+    role: 'L’assistant de Notice International',
+    status: 'En ligne · français & anglais',
+    launcher: 'Une question ? Demandez à Écho',
+    teaser: 'Bonjour ! Je suis Écho, l’assistant de Notice International. Une question sur nos expertises, un devis, un rendez-vous ? Je vous oriente.',
+    introKicker: 'Écho · votre assistant',
+    introTitle: 'Faites-vous écouter.',
+    introText: 'Expertises, réalisations, solaire, rendez-vous, devis… Posez votre question : je réponds tout de suite et, quand il le faut, je vous mets en relation avec la Direction.',
+    chips: ['Que proposez-vous ?', 'Je veux un devis', 'Prendre rendez-vous', 'Installer du solaire', 'Où êtes-vous situés ?', 'Parler au directeur'],
+    placeholder: 'Écrivez votre message…',
+    send: 'Envoyer',
+    listen: 'Dicter mon message',
+    listening: 'Je vous écoute…',
+    reset: 'Nouvelle conversation',
+    close: 'Fermer',
+    open: 'Ouvrir Écho, l’assistant',
+    thinking: 'Écho réfléchit',
+    handoffTitle: 'Je vous passe le relais',
+    handoffText: 'Une personne de l’équipe vous répond directement :',
+    recommended: 'Recommandé',
+    call: 'Appeler',
+    whatsapp: 'WhatsApp',
+    handoffMessage: 'Bonjour, Écho (l’assistant du site) m’oriente vers vous. Ma demande : ',
+    error: 'Je n’arrive pas à répondre pour le moment. L’équipe, elle, est joignable tout de suite :',
+    disclaimer: 'Écho peut se tromper : prix, délais et engagements sont toujours confirmés par l’équipe.',
+    privacy: 'Confidentialité',
+    you: 'Vous',
+  },
+
   whatsapp: {
     fab: 'Discutons sur WhatsApp',
     title: 'Une réponse humaine, tout de suite.',
@@ -873,7 +905,7 @@ export const fr = {
   },
 
   legal: {
-    updated: 'Dernière mise à jour : 31 octobre 2026',
+    updated: 'Dernière mise à jour : 1er novembre 2026',
     notice: {
       title: 'Mentions légales',
       body: `## Éditeur du site
@@ -936,6 +968,9 @@ Vos données ne sont jamais vendues ni louées, et ne sont jamais utilisées à 
 ## Destinataires
 Vos données sont destinées exclusivement aux équipes habilitées de NOTICE INTERNATIONAL. Elles sont hébergées par nos sous-traitants techniques, tenus à des obligations strictes de confidentialité et de sécurité : Vercel Inc. (hébergement du site), Supabase Inc. (base de données hébergée dans l’Union européenne) et, le cas échéant, notre prestataire d’envoi d’e-mails. Certains de ces prestataires pouvant être situés hors du Cameroun, ces transferts sont encadrés par des garanties contractuelles appropriées.
 
+## Assistant Écho
+L’assistant conversationnel « Écho » répond à vos questions à partir des informations publiées sur ce site. Vos messages servent uniquement à formuler la réponse : ils ne sont pas enregistrés dans notre base de données et la conversation n’est conservée que dans votre navigateur, le temps de votre visite. Lorsque l’assistant s’appuie sur un modèle d’intelligence artificielle, vos messages sont transmis de façon chiffrée à notre prestataire Anthropic PBC, qui les traite pour notre compte. N’y saisissez pas d’informations sensibles. La dictée vocale, si vous l’activez, utilise le service de reconnaissance de votre navigateur.
+
 ## Durées de conservation
 - Demandes de contact, de rendez-vous et de devis : 3 ans à compter du dernier échange.
 - Candidatures : 2 ans, sauf demande de suppression anticipée.
@@ -943,7 +978,7 @@ Vos données sont destinées exclusivement aux équipes habilitées de NOTICE IN
 - Statistiques de fréquentation : 24 mois maximum, sous forme agrégée.
 
 ## Sécurité
-Le site est servi exclusivement en HTTPS. L’accès aux données est restreint par des comptes nominatifs, des rôles et des règles de sécurité au niveau de la base de données ; les mots de passe sont chiffrés et chaque modification de contenu est historisée.
+Le site est servi exclusivement en HTTPS, avec une politique de sécurité du contenu stricte qui interdit tout script tiers. L’accès aux données est restreint par des comptes nominatifs, des rôles et des règles de sécurité au niveau de la base de données ; les mots de passe sont chiffrés, les sessions d’administration se ferment après une période d’inactivité, les envois de formulaires sont limités pour bloquer les abus et chaque modification de contenu est historisée.
 
 ## Vos droits
 Vous disposez d’un droit d’accès, de rectification, d’effacement, d’opposition, de limitation et de portabilité de vos données, ainsi que du droit de retirer votre consentement à tout moment. Pour les exercer, écrivez-nous à {email} en précisant votre demande ; une réponse vous sera apportée dans un délai d’un mois. Vous pouvez également saisir l’autorité de protection des données compétente.

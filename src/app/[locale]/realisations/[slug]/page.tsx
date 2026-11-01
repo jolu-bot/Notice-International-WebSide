@@ -76,7 +76,7 @@ export default async function ProjectPage({ params }: Props) {
           <div className="absolute inset-0 opacity-30 transition-opacity duration-1000 group-hover:opacity-60">
             <Picture src={next.cover} alt="" className="h-full w-full" sizes="100vw" />
           </div>
-          <div className="absolute inset-0 bg-gradient-to-r from-[var(--c-ink)] via-[rgb(7_10_23/.7)] to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-r from-[var(--bg)] via-[color-mix(in_srgb,var(--bg)_70%,transparent)] to-transparent" />
           <div className="wrap relative py-[clamp(5rem,12vw,10rem)]">
             <p className="kicker">{c.common.next}</p>
             <p className="mt-4 text-sm font-bold uppercase tracking-[.16em] text-[var(--c-orange)]">{next.client}</p>

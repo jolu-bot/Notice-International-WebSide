@@ -7,6 +7,7 @@ import { Btn, TLink } from '../fx/TLink';
 import { Socials } from '../ui/Socials';
 import { NewsletterForm } from '../forms/NewsletterForm';
 import { ManageCookiesButton } from '../consent/Consent';
+import { UserLock } from '../ui/Icons';
 
 export function Footer({ locale, c, settings }: { locale: Locale; c: Content; settings: Settings }) {
   const f = c.footer;
@@ -81,7 +82,7 @@ export function Footer({ locale, c, settings }: { locale: Locale; c: Content; se
       </div>
 
       <div className="wrap">
-        <p aria-hidden className="select-none whitespace-nowrap text-center font-display text-[13.2vw] leading-[.8] tracking-[-.05em] text-transparent [-webkit-text-stroke:1px_rgb(245_239_228/.14)]">
+        <p aria-hidden className="select-none whitespace-nowrap text-center font-display text-[13.2vw] leading-[.8] tracking-[-.05em] text-transparent [-webkit-text-stroke:1px_color-mix(in_srgb,var(--fg)_14%,transparent)]">
           Notice International
         </p>
       </div>
@@ -98,6 +99,7 @@ export function Footer({ locale, c, settings }: { locale: Locale; c: Content; se
             <li><TLink className="link-underline" href={href(locale, 'cookies')}>{f.cookies}</TLink></li>
             <li><TLink className="link-underline" href={href(locale, 'terms')}>{f.terms}</TLink></li>
             <li><ManageCookiesButton label={f.manageCookies} /></li>
+            <li><a className="link-underline inline-flex items-center gap-1.5" href="/admin"><UserLock size={14} /> {c.nav.loginHint}</a></li>
           </ul>
           <a href={settings.credits.url} target="_blank" rel="noopener" className="group inline-flex items-center gap-2 font-semibold text-[#3b8bff] transition-colors hover:text-[#7db2ff]">
             <span className="h-1.5 w-1.5 rounded-full bg-[#3b8bff] transition-transform group-hover:scale-150" />

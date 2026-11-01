@@ -171,7 +171,7 @@ export function WorkRail({ t, locale, common, limit = 7 }: { t: Content['work'];
             <TLink key={p.slug} href={href(locale, 'work', p.slug)} className="group relative flex w-[82vw] flex-none snap-start flex-col sm:w-[56vw] lg:w-[min(38vw,620px)]" data-hscroll-item data-cursor={common.seeProject.split(' ')[0]}>
               <div className={cn('img-zoom relative overflow-hidden rounded-[1.6rem]', i % 2 ? 'aspect-[4/5]' : 'aspect-[4/3.4]')}>
                 <Picture src={p.cover} alt={p.title} className="absolute inset-0" sizes="(min-width:1024px) 40vw, 82vw" />
-                <span className="absolute left-5 top-5 rounded-full bg-[rgb(7_10_23/.7)] px-3 py-1.5 text-xs font-bold backdrop-blur">{t.filters[p.category as keyof typeof t.filters] ?? p.category}</span>
+                <span className="absolute left-5 top-5 rounded-full bg-[rgb(7_10_23/.7)] px-3 py-1.5 text-xs font-bold text-white backdrop-blur">{t.filters[p.category as keyof typeof t.filters] ?? p.category}</span>
                 <span className="absolute bottom-5 right-5 grid h-14 w-14 scale-0 place-items-center rounded-full bg-[var(--c-orange)] text-[var(--c-ink)] transition-transform duration-700 group-hover:scale-100"><ArrowUpRight size={22} /></span>
               </div>
               <div className="mt-5 flex items-start justify-between gap-6">

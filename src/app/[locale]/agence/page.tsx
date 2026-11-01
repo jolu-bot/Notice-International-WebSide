@@ -94,7 +94,7 @@ export default async function AgencyPage({ params }: Props) {
 
       <section className="section-tight theme-dark">
         <div className="wrap grid items-center gap-12 lg:grid-cols-[1fr_1.4fr]">
-          <div className="mx-auto w-full max-w-sm" data-reveal="scale"><Logo variant="full" sloganColor="var(--c-cream)" /></div>
+          <div className="mx-auto w-full max-w-sm" data-reveal="scale"><Logo variant="full" sloganColor="var(--fg)" /></div>
           <div>
             <p className="kicker" data-reveal>{p.identityTitle}</p>
             <dl className="mt-8 divide-y divide-[var(--line)] border-y border-[var(--line)]" data-reveal>

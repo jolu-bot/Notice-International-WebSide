@@ -60,7 +60,7 @@ function CookiePanel({ t, initial, onSave, policyHref }: { t: Content['cookies']
   }, []);
   const toggle = (k: keyof Choices) => setChoices((c) => ({ ...c, [k]: !c[k] }));
   return (
-    <div ref={ref} className="cookie-panel theme-dark !bg-transparent p-6" role="dialog" aria-modal="false" aria-labelledby="cookie-title" style={{ background: 'rgb(14 19 40 / .96)' }}>
+    <div ref={ref} className="cookie-panel p-6" role="dialog" aria-modal="false" aria-labelledby="cookie-title">
       <div className="mosaic-band -mx-6 -mt-6 mb-5 rounded-t-[1.4rem]" />
       <p id="cookie-title" className="font-display text-xl">{t.title}</p>
       <p className="mt-2 text-sm text-[var(--muted)]">{t.text} <TLink href={policyHref} className="underline underline-offset-4">{t.learnMore}</TLink></p>

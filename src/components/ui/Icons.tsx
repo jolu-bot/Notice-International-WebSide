@@ -17,6 +17,10 @@ export const Calendar = ({ size, ...p }: P) => (<svg {...base(size)} {...p}><rec
 export const Check = ({ size, ...p }: P) => (<svg {...base(size)} {...p}><path d="m5 12.5 4.5 4.5L19 7.5" /></svg>);
 export const Video = ({ size, ...p }: P) => (<svg {...base(size)} {...p}><rect x="2.5" y="6" width="13" height="12" rx="2" /><path d="m15.5 10 6-3.5v11l-6-3.5" /></svg>);
 export const Building = ({ size, ...p }: P) => (<svg {...base(size)} {...p}><path d="M4 21V5l8-3v19M12 8h8v13M8 7h.01M8 11h.01M8 15h.01M16 12h.01M16 16h.01M2 21h20" /></svg>);
+export const UserLock = ({ size, ...p }: P) => (<svg {...base(size)} {...p}><circle cx="10" cy="8" r="4" /><path d="M2.5 21a7.5 7.5 0 0 1 11.2-6.5" /><rect x="14.5" y="15.5" width="7" height="5.5" rx="1.2" /><path d="M16 15.5v-1.6a2 2 0 0 1 4 0v1.6" /></svg>);
+export const Send = ({ size, ...p }: P) => (<svg {...base(size)} {...p}><path d="M21.5 2.5 10.5 13.5M21.5 2.5l-7 19-4-8-8-4 19-7Z" /></svg>);
+export const Mic = ({ size, ...p }: P) => (<svg {...base(size)} {...p}><rect x="9" y="2.5" width="6" height="12" rx="3" /><path d="M5 11a7 7 0 0 0 14 0M12 18v3.5" /></svg>);
+export const Refresh = ({ size, ...p }: P) => (<svg {...base(size)} {...p}><path d="M20 11a8 8 0 1 0-2.3 5.7M20 4v7h-7" /></svg>);
 export const Briefcase = ({ size, ...p }: P) => (<svg {...base(size)} {...p}><rect x="3" y="7" width="18" height="13" rx="2" /><path d="M9 7V5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2M3 13h18" /></svg>);
 
 export const WhatsApp = ({ size = 24, ...p }: P) => (

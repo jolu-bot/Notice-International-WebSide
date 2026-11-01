@@ -153,7 +153,7 @@ function GalleryEditor({ label, value, onChange }: { label: string; value: strin
         ))}
       </ul>
       <div className="mt-3 flex flex-wrap gap-2">
-        <label className="chip cursor-pointer">{busy ? <Spinner /> : '⬆'} Envoyer des images<input type="file" accept="image/*" multiple className="sr-only" onChange={(e) => onFiles(e.target.files)} /></label>
+        <label className="chip cursor-pointer">{busy ? <Spinner /> : '⬆'} Envoyer des images<input type="file" accept="image/jpeg,image/png,image/webp,image/avif,image/gif" multiple className="sr-only" onChange={(e) => onFiles(e.target.files)} /></label>
         <button type="button" className="chip" onClick={() => setPicker(true)}>Médiathèque</button>
       </div>
       {picker && <MediaPicker onClose={() => setPicker(false)} onPick={(url) => { onChange([...value, url]); setPicker(false); }} />}

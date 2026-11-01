@@ -13,14 +13,16 @@ import { RouteShell } from '@/components/fx/RouteShell';
 import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
 import { WhatsAppFab } from '@/components/layout/WhatsAppFab';
+import { Echo } from '@/components/assistant/Echo';
 import { ConsentProvider } from '@/components/consent/Consent';
 import { JsonLd } from '@/components/ui/JsonLd';
+import { THEME_INIT } from '@/lib/theme';
 
 const fraunces = Fraunces({ subsets: ['latin'], variable: '--font-fraunces', axes: ['opsz', 'SOFT', 'WONK'], style: ['normal', 'italic'], display: 'swap' });
 const manrope = Manrope({ subsets: ['latin'], variable: '--font-manrope', display: 'swap' });
 
 // Avant le premier rendu : active les animations JS et saute le préchargeur déjà vu
-const INIT = `(function(){var d=document.documentElement;d.classList.add('js');try{if(sessionStorage.getItem('ni-pl'))d.classList.add('pl-done')}catch(e){}})();`;
+const INIT = `(function(){var d=document.documentElement;d.classList.add('js');try{if(sessionStorage.getItem('ni-pl'))d.classList.add('pl-done')}catch(e){}${THEME_INIT}})();`;
 
 export function generateStaticParams() {
   return locales.map((locale) => ({ locale }));
@@ -28,7 +30,7 @@ export function generateStaticParams() {
 
 export const viewport: Viewport = {
   themeColor: '#070a17',
-  colorScheme: 'dark',
+  colorScheme: 'dark light',
   width: 'device-width',
   initialScale: 1,
 };
@@ -73,6 +75,7 @@ export default async function LocaleLayout({ children, params }: { children: Rea
             <main id="main"><RouteShell>{children}</RouteShell></main>
             <Footer key={locale} locale={locale} c={c} settings={settings} />
             <WhatsAppFab t={c.whatsapp} settings={settings} />
+            <Echo key={locale} locale={locale} t={c.assistant} settings={settings} privacyHref={href(locale, 'privacy')} />
           </ConsentProvider>
         </Experience>
         <div className="grain" aria-hidden />

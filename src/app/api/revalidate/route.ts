@@ -1,10 +1,13 @@
 import { NextResponse, type NextRequest } from 'next/server';
 import { revalidatePath, revalidateTag } from 'next/cache';
 import { SUPABASE_ANON_KEY, SUPABASE_URL, hasSupabase } from '@/lib/site';
+import { clientIp, rateLimited, sameOrigin } from '@/lib/guard';
 
 /** Appelé par l'espace d'administration après chaque enregistrement : publie immédiatement les contenus. */
 export async function POST(req: NextRequest) {
   if (!hasSupabase) return NextResponse.json({ ok: false }, { status: 503 });
+  if (!sameOrigin(req)) return NextResponse.json({ ok: false }, { status: 403 });
+  if (rateLimited(`reval:${clientIp(req)}`, 30, 60_000)) return NextResponse.json({ ok: false }, { status: 429 });
   const token = req.headers.get('authorization')?.replace(/^Bearer\s+/i, '');
   if (!token) return NextResponse.json({ ok: false }, { status: 401 });
 

@@ -44,7 +44,7 @@ export function AccessMap({ t, mapQuery, openMapLabel }: Props) {
     <div className="card overflow-hidden !rounded-[2rem]">
       <div className="relative aspect-[1286/860] w-full">
         {showMap ? (
-          <iframe title={t.mapTitle} src={embed} className="absolute inset-0 h-full w-full border-0 grayscale-[.3] invert-[.9] hue-rotate-180" loading="lazy" referrerPolicy="no-referrer-when-downgrade" allowFullScreen />
+          <iframe title={t.mapTitle} src={embed} className="map-frame absolute inset-0 h-full w-full border-0" loading="lazy" referrerPolicy="no-referrer-when-downgrade" allowFullScreen />
         ) : (
           <svg ref={svg} viewBox="0 50 1286 860" className="access-map absolute inset-0 h-full w-full" role="img" aria-label={`${t.mapTitle} — ${t.mapLead}`}>
             <defs>

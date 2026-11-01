@@ -56,7 +56,7 @@ export function Showreel({ t }: { t: Content['showreel'] }) {
       </div>
 
       {open && (
-        <div ref={modal} className="fixed inset-0 z-[130] grid place-items-center bg-[rgb(7_10_23/.97)] p-4" role="dialog" aria-modal="true" aria-label={t.title} onClick={(e) => { if (e.target === e.currentTarget) setOpen(false); }}>
+        <div ref={modal} className="force-dark fixed inset-0 z-[130] grid place-items-center !bg-[rgb(7_10_23/.97)] p-4" role="dialog" aria-modal="true" aria-label={t.title} onClick={(e) => { if (e.target === e.currentTarget) setOpen(false); }}>
           <button className="lb-btn absolute right-5 top-5" onClick={() => setOpen(false)} aria-label="Fermer / Close"><Close size={22} /></button>
           <video ref={video} className="max-h-[86vh] w-full max-w-6xl rounded-2xl" src="/media/showreel.mp4" poster="/media/showreel-poster.webp" controls playsInline preload="auto" />
         </div>

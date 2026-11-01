@@ -40,7 +40,7 @@ export function Media() {
         onDrop={(e) => { e.preventDefault(); setDrag(false); onFiles(e.dataTransfer.files); }}
         className={`mt-6 grid cursor-pointer place-items-center rounded-[1.6rem] border-2 border-dashed p-10 text-center transition-colors ${drag ? 'border-[var(--c-orange)] bg-[var(--c-orange)]/10' : 'border-[var(--line)] hover:border-[var(--fg)]'}`}>
         {busy ? <Spinner className="h-8 w-8" /> : (<><span className="font-display text-2xl">Déposez vos fichiers ici</span><span className="mt-1 text-sm text-[var(--muted)]">ou cliquez pour parcourir — images, PDF, vidéos MP4 (15 Mo max)</span></>)}
-        <input type="file" multiple accept="image/*,video/mp4,application/pdf" className="sr-only" onChange={(e) => onFiles(e.target.files)} />
+        <input type="file" multiple accept="image/jpeg,image/png,image/webp,image/avif,image/gif,video/mp4,application/pdf" className="sr-only" onChange={(e) => onFiles(e.target.files)} />
       </label>
       <ul className="mt-8 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-5">
         {items === null ? <Spinner /> : items.map((it) => (

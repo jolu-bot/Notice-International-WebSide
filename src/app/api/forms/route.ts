@@ -1,6 +1,7 @@
 import { NextResponse, type NextRequest } from 'next/server';
 import { z } from 'zod';
 import { SITE_URL, SUPABASE_ANON_KEY, SUPABASE_URL, hasSupabase } from '@/lib/site';
+import { clientIp, rateLimited, readJson, sameOrigin, tooLarge } from '@/lib/guard';
 
 export const runtime = 'nodejs';
 
@@ -10,21 +11,11 @@ const schema = z.object({
   name: z.string().trim().max(160).optional().default(''),
   email: z.string().trim().max(200).email(),
   phone: z.string().trim().max(40).optional().default(''),
-  data: z.record(z.string(), z.union([z.string().max(5000), z.number(), z.boolean(), z.null()])).default({}),
+  data: z.record(z.string().max(40), z.union([z.string().max(5000), z.number(), z.boolean(), z.null()])).default({})
+    .refine((d) => Object.keys(d).length <= 30, 'too_many_fields'),
   hp: z.string().optional().default(''),
   elapsed: z.number().optional().default(0),
 });
-
-// Limitation de débit (par instance) : 6 envois / 10 minutes / IP
-const hits = new Map<string, number[]>();
-function limited(ip: string) {
-  const now = Date.now();
-  const list = (hits.get(ip) ?? []).filter((t) => now - t < 10 * 60 * 1000);
-  list.push(now);
-  hits.set(ip, list);
-  if (hits.size > 5000) hits.clear();
-  return list.length > 6;
-}
 
 const LABELS: Record<string, string> = {
   company: 'Entreprise', subject: 'Objet', message: 'Message', mode: 'Format', when: 'Date & heure', notes: 'Précisions',
@@ -61,14 +52,18 @@ function emailHtml(kind: string, p: z.infer<typeof schema>) {
   </table></td></tr></table></body></html>`;
 }
 
+// Un nom contenant une adresse web n'est jamais recopié dans l'accusé de réception (anti-spam)
+const safeName = (name: string) => (/https?:|www\.|\.[a-z]{2,}\/|@/i.test(name) ? '' : name.slice(0, 60));
+
 function confirmationHtml(p: z.infer<typeof schema>) {
   const fr = p.locale === 'fr';
+  const name = safeName(p.name || '');
   return `<!doctype html><html><body style="margin:0;background:#070a17;font-family:Helvetica,Arial,sans-serif;color:#f5efe4">
   <table width="100%" cellpadding="0" cellspacing="0"><tr><td align="center" style="padding:40px 12px">
   <table width="560" cellpadding="0" cellspacing="0" style="max-width:560px">
     <tr><td style="height:6px;background:linear-gradient(90deg,#0068ae,#f39200,#e2001a,#13286e);border-radius:6px"></td></tr>
     <tr><td style="padding:32px 4px"><h1 style="font-family:Georgia,serif;font-weight:400;font-size:30px;margin:0">${fr ? 'Nous vous avons bien entendu.' : 'We hear you.'}</h1>
-    <p style="font-size:16px;line-height:1.6;color:#cfc8bb">${fr ? `Bonjour ${esc(p.name || '')},<br><br>Merci pour votre message. Notre équipe l’étudie et revient vers vous très rapidement.` : `Hello ${esc(p.name || '')},<br><br>Thank you for your message. Our team is reviewing it and will get back to you very soon.`}</p>
+    <p style="font-size:16px;line-height:1.6;color:#cfc8bb">${fr ? `Bonjour ${esc(name)},<br><br>Merci pour votre message. Notre équipe l’étudie et revient vers vous très rapidement.` : `Hello ${esc(name)},<br><br>Thank you for your message. Our team is reviewing it and will get back to you very soon.`}</p>
     <p style="font-size:16px;line-height:1.6;color:#cfc8bb">${fr ? 'Besoin d’une réponse immédiate ? Écrivez-nous sur WhatsApp' : 'Need an immediate answer? Message us on WhatsApp'} : <a style="color:#f39200" href="https://wa.me/237699902879">+237 699 90 28 79</a></p>
     <p style="font-size:14px;color:#8e877c;margin-top:32px">Notice International — 7X faites-vous écouter<br>Rue Palais Dika, Akwa — Douala, Cameroun</p></td></tr>
   </table></td></tr></table></body></html>`;
@@ -107,16 +102,19 @@ async function relayFormSubmit(to: string, subject: string, p: z.infer<typeof sc
 }
 
 export async function POST(req: NextRequest) {
-  const ip = req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() || 'unknown';
+  if (!sameOrigin(req)) return NextResponse.json({ ok: false, error: 'forbidden' }, { status: 403 });
+  if (tooLarge(req, 64_000)) return NextResponse.json({ ok: false, error: 'too_large' }, { status: 413 });
+  const ip = clientIp(req);
   let parsed: z.infer<typeof schema>;
   try {
-    parsed = schema.parse(await req.json());
+    parsed = schema.parse(await readJson(req, 64_000));
   } catch {
     return NextResponse.json({ ok: false, error: 'invalid' }, { status: 400 });
   }
   // Robots : pot de miel rempli ou formulaire envoyé en moins de 2,5 s → succès silencieux
   if (parsed.hp || (parsed.elapsed > 0 && parsed.elapsed < 2500)) return NextResponse.json({ ok: true });
-  if (limited(ip)) return NextResponse.json({ ok: false, error: 'rate_limited' }, { status: 429 });
+  // 6 envois / 10 minutes / IP, et 3 par adresse e-mail et par heure
+  if (rateLimited(`form:${ip}`, 6, 10 * 60_000) || rateLimited(`form-mail:${parsed.email.toLowerCase()}`, 3, 60 * 60_000)) return NextResponse.json({ ok: false, error: 'rate_limited' }, { status: 429 });
 
   let stored = false;
   if (hasSupabase) {
