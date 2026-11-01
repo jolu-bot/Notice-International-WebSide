@@ -178,6 +178,14 @@ export function Experience({ children }: { children: ReactNode }) {
   const lenisRef = useRef<Lenis | null>(null);
   const pending = useRef(false);
   const safety = useRef<number | undefined>(undefined);
+  const cleanupRef = useRef<(() => void) | null>(null);
+
+  // Démonte les animations (découpages de texte, épinglages) pour rendre au DOM sa forme d'origine
+  const teardown = useCallback(() => {
+    const fn = cleanupRef.current;
+    cleanupRef.current = null;
+    try { fn?.(); } catch { /* DOM déjà remplacé */ }
+  }, []);
 
   // Défilement fluide (Lenis) synchronisé avec GSAP
   useEffect(() => {
@@ -207,10 +215,12 @@ export function Experience({ children }: { children: ReactNode }) {
     gsap.set(el, { display: 'flex' });
     gsap.fromTo(el.children, { scaleY: 0, transformOrigin: 'bottom' }, { scaleY: 1, duration: 0.6, ease: 'expo.inOut', stagger: 0.055,
       onComplete: () => {
+        // Le rideau couvre l'écran : on rend la page intacte à React avant qu'il ne la remplace
+        teardown();
         router.push(href);
         safety.current = window.setTimeout(() => { pending.current = false; lenisRef.current?.start(); uncover(); }, 5000);
       } });
-  }, [router, uncover]);
+  }, [router, uncover, teardown]);
 
   const scrollTo = useCallback((target: string | number | HTMLElement) => {
     if (lenisRef.current) lenisRef.current.scrollTo(target as never, { offset: -80, duration: 1.4 });
@@ -222,12 +232,11 @@ export function Experience({ children }: { children: ReactNode }) {
   useEffect(() => {
     if (!window.location.hash) { lenisRef.current?.scrollTo(0, { immediate: true }); window.scrollTo(0, 0); }
     if (pending.current) { pending.current = false; lenisRef.current?.start(); uncover(); }
-    const main = document.getElementById('main');
-    if (!main) return;
-    const cleanup = runAnimator(main);
+    // Contenu de la page + pied de page (son grand appel à l'action est animé lui aussi)
+    cleanupRef.current = runAnimator(document.body);
     if (window.location.hash) window.setTimeout(() => scrollTo(window.location.hash), 400);
-    return cleanup;
-  }, [pathname, uncover, scrollTo]);
+    return teardown;
+  }, [pathname, uncover, scrollTo, teardown]);
 
   return (
     <ExperienceContext.Provider value={{ navigate, scrollTo }}>

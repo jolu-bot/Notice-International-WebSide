@@ -158,8 +158,8 @@ export function Method({ t }: { t: Content['method'] }) {
 export function WorkRail({ t, locale, common, limit = 7 }: { t: Content['work']; locale: Locale; common: Content['common']; limit?: number }) {
   const items = t.items.slice(0, limit);
   return (
-    <section className="theme-dark relative overflow-hidden lg:h-screen" data-hscroll>
-      <div className="flex h-full items-center py-24 lg:py-0">
+    <section className="theme-dark relative overflow-hidden">
+      <div className="flex items-center py-24 lg:h-screen lg:py-0" data-hscroll>
         <div className="flex w-full snap-x snap-mandatory gap-6 overflow-x-auto px-[var(--gutter)] pb-6 lg:w-max lg:overflow-visible lg:pb-0" data-hscroll-track>
           <div className="flex w-[82vw] flex-none snap-start flex-col justify-center pr-6 sm:w-[60vw] lg:w-[34vw]">
             <p className="kicker">{t.label}</p>

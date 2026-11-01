@@ -9,6 +9,7 @@ import { organizationJsonLd } from '@/lib/seo';
 import { SITE_URL } from '@/lib/site';
 import { Experience } from '@/components/fx/Experience';
 import { Preloader } from '@/components/fx/Preloader';
+import { RouteShell } from '@/components/fx/RouteShell';
 import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
 import { WhatsAppFab } from '@/components/layout/WhatsAppFab';
@@ -69,8 +70,8 @@ export default async function LocaleLayout({ children, params }: { children: Rea
           <ConsentProvider t={c.cookies} policyHref={href(locale, 'cookies')}>
             <Preloader words={c.preloader.words} since={Number(settings.brand.foundingYear) || 2000} />
             <Header locale={locale} nav={c.nav} easter={c.easter} settings={settings} />
-            <main id="main">{children}</main>
-            <Footer locale={locale} c={c} settings={settings} />
+            <main id="main"><RouteShell>{children}</RouteShell></main>
+            <Footer key={locale} locale={locale} c={c} settings={settings} />
             <WhatsAppFab t={c.whatsapp} settings={settings} />
           </ConsentProvider>
         </Experience>
