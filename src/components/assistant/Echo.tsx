@@ -39,9 +39,9 @@ export function EchoMark({ mood = 'idle', className }: { mood?: Mood; className?
       gsap.set(facets, { transformBox: 'fill-box', transformOrigin: '50% 50%' });
       if (mood === 'idle') {
         gsap.to(facets, { scale: () => gsap.utils.random(0.9, 1.08), duration: () => gsap.utils.random(1.6, 2.6), ease: 'sine.inOut', yoyo: true, repeat: -1, stagger: { each: 0.08, from: 'random' } });
-        gsap.to(svg, { rotate: 4, duration: 3.2, ease: 'sine.inOut', yoyo: true, repeat: -1, transformOrigin: '50% 50%' });
+        gsap.to(svg, { rotation: 4, duration: 3.2, ease: 'sine.inOut', yoyo: true, repeat: -1, transformOrigin: '50% 50%' });
       } else if (mood === 'thinking') {
-        gsap.to(facets, { rotate: () => gsap.utils.random(-40, 40), scale: () => gsap.utils.random(0.6, 1.2), duration: 0.45, ease: 'power2.inOut', yoyo: true, repeat: -1, stagger: { each: 0.04, from: 'center', repeat: -1, yoyo: true } });
+        gsap.to(facets, { rotation: () => gsap.utils.random(-40, 40), scale: () => gsap.utils.random(0.6, 1.2), duration: 0.45, ease: 'power2.inOut', yoyo: true, repeat: -1, stagger: { each: 0.04, from: 'center', repeat: -1, yoyo: true } });
       } else if (mood === 'speaking') {
         gsap.to(facets, { scale: () => gsap.utils.random(0.75, 1.3), y: () => gsap.utils.random(-14, 14), duration: () => gsap.utils.random(0.12, 0.24), ease: 'power1.inOut', yoyo: true, repeat: -1, repeatRefresh: true, stagger: { each: 0.02, from: 'random' } });
         if (mouth) gsap.to(mouth, { scaleY: 0.82, transformBox: 'fill-box', transformOrigin: '50% 50%', duration: 0.16, yoyo: true, repeat: -1, ease: 'sine.inOut' });
