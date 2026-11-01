@@ -74,7 +74,7 @@ export function buildDocs(locale: Locale, c: Content, s: Settings): Doc[] {
   for (const w of c.work.items) {
     docs.push({
       id: `work:${w.slug}`, action: `work:${w.slug}`,
-      title: `${w.client} — ${w.title}`,
+      title: w.title.toLowerCase().includes(w.client.toLowerCase()) ? w.title : `${w.client} — ${w.title}`,
       text: clip(`${w.summary} ${w.body}`, 520),
     });
   }

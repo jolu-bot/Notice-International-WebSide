@@ -32,16 +32,47 @@ function retrieve(q: string, docs: Doc[]) {
     const title = normalize(d.title).split(' ');
     const body = normalize(d.text).split(' ');
     let score = 0;
+    let matched = 0;
+    let exactTitle = false;
     for (const t of terms) {
-      const stem = t.slice(0, Math.max(4, t.length - 2));
-      if (title.some((w) => w === t || (stem.length >= 4 && w.startsWith(stem)))) score += 3;
-      else if (body.some((w) => w === t || (stem.length >= 4 && w.startsWith(stem)))) score += 1;
+      // Radical tolérant (pluriels, conjugaisons) uniquement pour les mots assez longs
+      const stem = t.length >= 6 ? t.slice(0, t.length - 2) : t;
+      const hit = (w: string) => w === t || (stem !== t && w.startsWith(stem) && Math.abs(w.length - t.length) <= 3);
+      if (title.some((w) => w === t)) { score += 3; matched++; exactTitle = true; }
+      else if (title.some(hit)) { score += 2; matched++; }
+      else if (body.some(hit)) { score += 1; matched++; }
     }
-    return { d, score: score / Math.sqrt(terms.length) };
+    // Un seul mot approchant ne suffit pas : il faut deux termes communs, ou un nom exact (client, expertise…)
+    const relevant = matched >= Math.min(2, terms.length) || exactTitle;
+    const weight = d.id.startsWith('service:') || d.id === 'immo' ? 1.5 : d.id.startsWith('faq:') ? 1.3 : 1;
+    return { d, exact: exactTitle, score: relevant ? (score * weight) / Math.sqrt(terms.length) : 0 };
   }).filter((r) => r.score > 0).sort((a, b) => b.score - a.score);
 }
 
 const has = (q: string, re: RegExp) => re.test(q);
+
+/** Vocabulaire courant → expertise : « louer un appartement » mène aux services immobiliers, etc. */
+const TOPICS: Array<[RegExp, string]> = [
+  [/\b(immobili|location|louer|loyer|appartements?|logements?|terrains?|foncier|patrimoine|bail|real estate|property|properties|rent|rental|apartments?|landlord|land title)/g, 'service:immobilier'],
+  [/\b(construi|construction|batiments?|chantiers?|btp|genie civil|plomberie|electricite|electrique|domotique|climatisation|solaires?|panneaux?|photovolta|energies?|onduleur|build|building|houses?|solar|energy|electrical|plumbing|air condition)/g, 'service:btp-energie'],
+  [/\b(etudes? de marche|sondages?|enquetes?|business plan|faisabilite|audits?|strategi|market research|surveys?|feasibility|strategy|consulting)/g, 'service:strategie-conseil'],
+  [/\b(logos?|identite visuelle|charte graphique|affiches?|flyers?|brochures?|packagings?|emballages?|impression|imprim|kakemonos?|enseignes?|graphis|design|branding)/g, 'service:creation-design'],
+  [/\b(spots?|videos?|radio|tele\b|television|films?|clips?|plan media|achat d espace|affichage|tv ad|media plan|commercials?)/g, 'service:audiovisuel-medias'],
+  [/\b(hotesses?|stewards?|animateurs?|animatrices?|hostess(es)?|staffing|formation du personnel)/g, 'service:talents-formation'],
+  [/\b(evenements?|evenementiel|salons?|lancement|soirees?|conferences?|ceremonies?|seminaires?|galas?|concerts?|stands?|events?|launch|trade shows?)/g, 'service:evenementiel'],
+  [/\b(roadshows?|caravanes?|street marketing|activations?|sampling|degustations?|merchandising|animation commerciale|porte a porte|marketing terrain|field marketing)/g, 'service:marketing-terrain'],
+  [/\b(site web|site internet|reseaux sociaux|facebook|instagram|tiktok|community manag|digital|numerique|cyber|securite informatique|piratage|website|social media|hacking)/g, 'service:digital-cybersecurite'],
+];
+function topicOf(q: string) {
+  let best: string | null = null;
+  let max = 0;
+  for (const [re, id] of TOPICS) {
+    const n = q.match(re)?.length ?? 0;
+    if (n > max) { max = n; best = id; }
+  }
+  return best;
+}
+const lowerFirst = (x: string) => x.charAt(0).toLowerCase() + x.slice(1);
 
 export function localReply(message: string, locale: Locale, c: Content, s: Settings, docs: Doc[]): Reply {
   const fr = locale === 'fr';
@@ -60,6 +91,25 @@ export function localReply(message: string, locale: Locale, c: Content, s: Setti
     human: T('Parler à quelqu’un', 'Talk to someone'),
     hours: T('Vos horaires ?', 'Opening hours?'),
   };
+
+  // 0. Un client cité explicitement : on présente la réalisation correspondante
+  const padded = ` ${q} `;
+  const client = c.work.items.find((w) => {
+    if (/notice international|divers|various/i.test(w.client)) return false;
+    // « MTN Cameroon » → « mtn cameroon » et « mtn » ; « Huawei · Nestlé » → chaque marque
+    const names = w.client.split(/[·,/]/).flatMap((part) => {
+      const n = normalize(part);
+      const first = n.split(' ')[0];
+      return [n, ...(first.length >= 3 && first !== 'sci' && first !== 'go' ? [first] : [])];
+    }).filter((n) => n.length >= 3);
+    return names.some((n) => padded.includes(` ${n} `));
+  });
+  if (client && !has(q, /\b(prix|tarif|devis|combien|quote|price|cost)\b/)) {
+    return {
+      text: T(`Oui ! **${client.client}** fait partie de nos références : ${client.summary}`, `Yes! **${client.client}** is one of our clients: ${client.summary}`),
+      actions: [`work:${client.slug}`, 'work', 'quote'], handoff: 'none', suggestions: [sugg.services, sugg.meeting],
+    };
+  }
 
   // 1. Demande explicite d'un humain
   const wantsCeo = has(q, /\b(directeur|dg|ceo|patron|fondateur|president|timothe|diwondi|director|founder|owner|boss|manager|gerant|responsable)\b/);
@@ -121,10 +171,12 @@ export function localReply(message: string, locale: Locale, c: Content, s: Setti
       actions: ['appointment', 'contact'], handoff: 'none', suggestions: [sugg.where, sugg.meeting],
     };
   }
-  if (has(q, /\b(ou (etes|est|se trouve|vous trouver|vous situe)|adresse|situes?|localis|itineraire|plan d ?acces|acces|venir|trouver l ?agence|address|where|located|location|directions|map|akwa|laquintinie|palais dika)/)) {
+  const whereRe = fr ? /\b(ou (etes|est|se trouve|vous trouver|vous situe)|adresse|situes?|localis|itineraire|plan d ?acces|venir a l ?agence|trouver l ?agence|akwa|laquintinie|palais dika)/
+    : /\b(where|address|located|location|directions|map|akwa|laquintinie|palais dika)\b/;
+  if (has(q, whereRe)) {
     return {
-      text: T(`Nous sommes à **${s.address.street}, ${s.address.district} — ${s.address.city}**, ${s.address.landmark.toLowerCase()}. ${c.contactPage.directions.join(' ')}`,
-        `We’re at **${s.address.street}, ${s.address.district} — ${s.address.city}**, ${s.address.landmark.toLowerCase()}. ${c.contactPage.directions.join(' ')}`),
+      text: T(`Nous sommes à **${s.address.street}, ${s.address.district} — ${s.address.city}**, ${lowerFirst(s.address.landmark)}. ${c.contactPage.directions.join(' ')}`,
+        `We’re at **${s.address.street}, ${s.address.district} — ${s.address.city}**, ${lowerFirst(s.address.landmark)}. ${c.contactPage.directions.join(' ')}`),
       actions: ['contact', 'appointment'], handoff: 'none', suggestions: [sugg.hours, sugg.meeting],
     };
   }
@@ -135,7 +187,9 @@ export function localReply(message: string, locale: Locale, c: Content, s: Setti
       actions: ['contact'], handoff: 'both', suggestions: [sugg.meeting, sugg.where],
     };
   }
-  if (has(q, /\b(emploi|job|jobs|travail(ler)?|recrut|candidat|cv|stage|stagiaire|casting|hotesses?|stewards?|animat|career|careers|hiring|vacanc|internship|work for you|apply)/)) {
+  const wantsJob = has(q, /\b(emploi|job|jobs|candidature|candidater|postuler|cv|stage|stagiaire|career|careers|hiring|internship|apply|vacancy|vacancies)\b/)
+    || has(q, /\b(devenir|travailler (chez|avec) vous|rejoindre|work for you|join (you|your team)|become)\b/) || has(q, /\b(recrutez|vous recrutez|embauchez)\b/);
+  if (wantsJob) {
     return {
       text: T(`${c.careersPage.lead} Déposez votre candidature en ligne (profil, expérience, disponibilité) : nous vous recontactons lors de nos prochains castings.`, `${c.careersPage.lead} Apply online (profile, experience, availability): we’ll get back to you for our next castings.`),
       actions: ['careers'], handoff: 'none', suggestions: [sugg.services],
@@ -153,8 +207,17 @@ export function localReply(message: string, locale: Locale, c: Content, s: Setti
 
   // 5. Recherche dans la base (expertise, réalisation, client, FAQ…)
   const hits = retrieve(message, docs);
+  const topic = topicOf(q);
+  const topicDoc = topic ? docs.find((d) => d.id === topic) : undefined;
+  const strongFaq = hits[0] && hits[0].d.id.startsWith('faq:') && hits[0].score >= 2.5;
+  if (topicDoc && !strongFaq && !(hits[0]?.exact && hits[0].d.id !== topic && hits[0].score >= 3)) {
+    return {
+      text: `**${topicDoc.title.replace(/ \(.*\)$/, '')}** — ${sentences(topicDoc.text, 420)}`,
+      actions: [topicDoc.action ?? 'services', 'quote', 'appointment'], handoff: 'none', suggestions: [sugg.work, sugg.human],
+    };
+  }
   const generic = has(q, /\b(services?|propos|offre[sz]?|faites|expertises?|domaines?|metiers?|activites?|what do you|offer|do you do)\b/);
-  if (generic && (!hits.length || hits[0].score < 3)) {
+  if (generic && (!hits.length || (!hits[0].exact && hits[0].score < 3))) {
     const com = c.services.items.filter((x) => x.universe === 'com').map((x) => x.title);
     const immo = c.services.items.filter((x) => x.universe === 'immo').map((x) => x.title);
     return {
@@ -163,7 +226,7 @@ export function localReply(message: string, locale: Locale, c: Content, s: Setti
       actions: ['services', 'immo'], handoff: 'none', suggestions: [sugg.solar, sugg.work, sugg.quote],
     };
   }
-  if (has(q, /\b(realisations?|references?|clients?|portfolio|projets?|campagnes?|travaille avec|worked with|case stud|work)\b/) && (!hits.length || !hits[0].d.id.startsWith('work:') || hits[0].score < 3)) {
+  if (has(q, /\b(realisations?|references?|clients?|portfolio|campagnes?|travaille avec|worked with|case stud|your work)\b/) && (!hits.length || !hits[0].exact)) {
     return {
       text: T(`Parmi les marques qui nous ont confié leur voix : ${c.clients.items.slice(0, 12).join(', ')}… Campagnes nationales, événements, études, créations : tout est à découvrir dans nos réalisations.`,
         `Brands that trusted us with their voice include ${c.clients.items.slice(0, 12).join(', ')}… National campaigns, events, studies, creative work: see it all in our portfolio.`),
