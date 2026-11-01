@@ -16,7 +16,7 @@ export function NewsCard({ post, t, locale, featured, className }: { post: Post;
     <TLink href={href(locale, 'news', post.slug)} className={cn('group flex flex-col', featured && 'lg:grid lg:grid-cols-[1.35fr_1fr] lg:items-center lg:gap-12', className)} data-cursor={t.readMore.split(' ')[0]}>
       <div className={cn('img-zoom relative overflow-hidden rounded-[1.6rem] bg-[var(--card)]', featured ? 'aspect-[16/10]' : 'aspect-[4/3]')}>
         {post.cover ? (
-          <Picture src={post.cover} alt={post.title} className="absolute inset-0" sizes={featured ? '(min-width:1024px) 58vw, 100vw' : '(min-width:1024px) 33vw, (min-width:640px) 50vw, 100vw'} />
+          <Picture src={post.cover} alt={post.title} className="h-full w-full" sizes={featured ? '(min-width:1024px) 58vw, 100vw' : '(min-width:1024px) 33vw, (min-width:640px) 50vw, 100vw'} />
         ) : (
           <div className="absolute inset-0 grid place-items-center bg-[var(--mosaic)] bg-[length:240%_100%] opacity-80" aria-hidden />
         )}
