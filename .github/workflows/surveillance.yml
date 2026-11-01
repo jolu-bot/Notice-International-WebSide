@@ -1,0 +1,66 @@
+# Surveillance du site : vérifie toutes les 15 minutes que les pages et la base répondent.
+# En cas de panne, une « issue » GitHub est ouverte (alerte par e-mail au propriétaire du dépôt),
+# puis refermée automatiquement quand le site revient.
+name: Surveillance du site
+
+on:
+  schedule:
+    - cron: '*/15 * * * *'
+  workflow_dispatch:
+
+permissions:
+  issues: write
+
+concurrency:
+  group: surveillance
+  cancel-in-progress: false
+
+jobs:
+  verifier:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    env:
+      SITE: https://www.noticeinternational.com
+      GH_TOKEN: ${{ github.token }}
+      GH_REPO: ${{ github.repository }}
+      TITRE: "Site indisponible — alerte automatique"
+    steps:
+      - name: Vérifier les pages et la base
+        id: check
+        run: |
+          echo "panne=" >> "$GITHUB_OUTPUT"
+          fail=""
+          for path in /fr /en /fr/contact /api/health; do
+            ok=""
+            for attempt in 1 2 3; do
+              code=$(curl -s -o /dev/null -w '%{http_code}' --max-time 20 "$SITE$path" || echo 000)
+              if [ "$code" = "200" ]; then ok=1; break; fi
+              sleep 20
+            done
+            [ -z "$ok" ] && fail="$fail $path ($code)"
+          done
+          if [ -n "$fail" ]; then
+            echo "Pages en échec :$fail"
+            echo "panne=$fail" >> "$GITHUB_OUTPUT"
+          else
+            echo "Tout répond normalement."
+          fi
+
+      - name: Ouvrir une alerte
+        if: steps.check.outputs.panne != ''
+        run: |
+          open=$(gh issue list --state open --search "$TITRE in:title" --json number --jq 'length')
+          if [ "$open" = "0" ]; then
+            gh issue create --title "$TITRE" --body "Le site $SITE ne répond plus correctement depuis $(date -u '+%d/%m/%Y %H:%M') UTC.
+
+          Pages en échec :${{ steps.check.outputs.panne }}
+
+          Vérifier : tableau de bord Vercel (déploiements, erreurs) et Supabase (projet en pause ?). Cette alerte se fermera d'elle-même au retour du site."
+          fi
+
+      - name: Clore l'alerte au retour du site
+        if: steps.check.outputs.panne == ''
+        run: |
+          for n in $(gh issue list --state open --search "$TITRE in:title" --json number --jq '.[].number'); do
+            gh issue close "$n" --comment "Le site répond de nouveau normalement ($(date -u '+%d/%m/%Y %H:%M') UTC)."
+          done

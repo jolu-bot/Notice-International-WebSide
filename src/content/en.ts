@@ -19,6 +19,7 @@ export const en: Content = {
       contact: { title: 'Contact & directions — Akwa, Douala', description: 'Write to us, call us or visit us in Akwa, rue Palais Dika, next to Laquintinie Hospital. Fast replies, direct WhatsApp.' },
       appointment: { title: 'Book an appointment online', description: 'Pick your date, time slot and format — at our office, by video, by phone or at your premises. Quick confirmation.' },
       quote: { title: 'Request a free quote', description: 'Describe your project in three steps: we come back to you with a tailored proposal, no strings attached.' },
+      news: { title: 'News — campaigns, events & projects', description: 'The latest from Notice International and Notice Immo & Building: campaigns, events, case studies, insights and building projects.' },
       careers: { title: 'Careers & casting — join our teams', description: 'Hostesses, stewards, brand ambassadors, sales reps, technicians, creatives: apply to Notice International.' },
       legal: { title: 'Legal notice', description: 'Legal notice of the Notice International website.' },
       privacy: { title: 'Privacy policy', description: 'How Notice International collects, uses and protects your personal data.' },
@@ -37,6 +38,7 @@ export const en: Content = {
     appointment: 'Appointment',
     quote: 'Quote',
     careers: 'Careers',
+    news: 'News',
     menu: 'Menu',
     close: 'Close',
     cta: 'Book a meeting',
@@ -68,7 +70,7 @@ export const en: Content = {
     whatWeDo: 'What we do for you',
     callUs: 'Call us',
     writeUs: 'Write to us',
-    whatsappUs: 'Direct WhatsApp',
+    whatsappUs: 'WhatsApp us',
     findUs: 'Come and see us',
     openMap: 'Open in Google Maps',
     itinerary: 'Directions',
@@ -96,7 +98,7 @@ export const en: Content = {
       'stand apart',
       'seize opportunities',
       'innovate',
-      'sense the change of pace',
+      'stay ahead of change',
       'take the lead',
     ],
     lead:
@@ -202,7 +204,7 @@ export const en: Content = {
       {
         slug: 'evenementiel',
         universe: 'com',
-        title: 'Events & Big Events',
+        title: 'Events & Major Events',
         short: 'Moments people talk about for years.',
         description:
           'Product launches, symposiums, conferences, trade fairs, galas, concerts, fashion shows, TV broadcasts: we design, stage and run your events end to end, with full logistics — stage trucks, sound, marquees, banners, furniture.',
@@ -273,7 +275,7 @@ export const en: Content = {
         title: 'Construction & Energy',
         short: 'Studies, design, delivery.',
         description:
-          'Our Notice Immo & Building arm provides seasoned engineers and technicians across every building trade — from study to delivery, for public tenders and private projects alike — and takes you solar.',
+          'Our Notice Immo & Building arm provides seasoned engineers and technicians across every building trade — from study to delivery, for public tenders and private projects alike — and helps you go solar.',
         points: [
           'Public works & construction',
           'High- and low-voltage electrical works',
@@ -318,10 +320,10 @@ export const en: Content = {
     title: 'Four movements. Nothing left to chance.',
     intro: 'Every assignment follows the same score — the one that turns an intuition into a measurable result.',
     steps: [
-      { title: 'Audit what exists', text: 'We start by listening. A diagnosis of the current situation, the real problem brought to light, a precise profile of each of your targets.' },
+      { title: 'Audit the current situation', text: 'We start by listening. A diagnosis of the current situation, the real problem brought to light, a precise profile of each of your targets.' },
       { title: 'Build the strategy', text: 'Marketing, communication and creative strategies, built around clear objectives, a controlled budget and a realistic action plan.' },
       { title: 'Execute the action plan', text: 'Design and production follow-up of every asset, media plan, field activation, events: we orchestrate every detail, nationwide.' },
-      { title: 'Measure & sustain', text: 'Post-evaluation, reach measurement, recommendations: what works gets amplified, what could do better gets fixed.' },
+      { title: 'Measure & sustain', text: 'Post-evaluation, reach measurement, recommendations: what works gets amplified, what could work better gets fixed.' },
     ],
   },
 
@@ -544,7 +546,7 @@ export const en: Content = {
     label: 'Why trust us',
     title: 'Five reasons to be heard, this time.',
     items: [
-      { title: 'Over a quarter century of experience', text: 'Since 2000, hundreds of assignments delivered for national and international leaders, across every sector.' },
+      { title: 'Over a quarter of a century of experience', text: 'Since 2000, hundreds of assignments delivered for national and international leaders, across every sector.' },
       { title: 'A cross-disciplinary view', text: 'Strategy, creative, field, digital, construction: we see the whole picture — and that makes the difference.' },
       { title: 'A selective clientele', text: 'Demanding brands that trust us with what they value most: their image and their customer relationships.' },
       { title: 'Expert teams', text: 'Industry specialists and lecturer-consultants from the country’s universities.' },
@@ -566,7 +568,7 @@ export const en: Content = {
         photo: '',
       },
       {
-        name: 'Augustine Dalle épse Bisseck',
+        name: 'Augustine Dalle Bisseck',
         role: 'Executive Assistant',
         bio: 'The agency’s first smile and living memory, she orchestrates schedules, appointments and client relations with clockmaker precision. She is often the first to answer you.',
         phone: '+237 694 25 74 21',
@@ -576,7 +578,7 @@ export const en: Content = {
       {
         name: 'Maxime Yamsi',
         role: 'Art Director & Head of Design',
-        bio: 'The genius of shapes and colours. Identities, campaigns, 2D and 3D visuals, mock-ups, packaging: he crafts the visual signature of every project, from first sketch to print.',
+        bio: 'A master of shape and colour. Identities, campaigns, 2D and 3D visuals, mock-ups, packaging: he crafts the visual signature of every project, from first sketch to print.',
         phone: '+237 655 62 57 37',
         email: 'maxim_yamsi@noticeinternational.com',
         photo: '',
@@ -598,7 +600,7 @@ export const en: Content = {
     items: [
       { q: 'What services does Notice International offer?', a: 'We cover the whole communication value chain: strategy and consulting, market research, creative and design, audiovisual and media planning, events, field and trade marketing, staff recruitment and training, digital and cybersecurity. Our Notice Immo & Building arm handles construction, solar photovoltaic energy and real estate services.' },
       { q: 'Do you work outside Douala?', a: 'Yes. Based in Akwa, Douala, we deploy our teams in every region of Cameroon — one of our campaigns ran simultaneously in five regions — and we also support international projects.' },
-      { q: 'How does a collaboration work?', a: 'In four movements: we audit what exists, build the strategy, execute the action plan, then measure results to sustain what works. A single point of contact supports you from the first meeting to the final review.' },
+      { q: 'How does a collaboration work?', a: 'In four movements: we audit the current situation, build the strategy, execute the action plan, then measure results to sustain what works. A single point of contact supports you from the first meeting to the final review.' },
       { q: 'How much does a campaign or event cost?', a: 'Every project is unique: we prepare a free, tailored quote based on your objectives, timeline and budget. Describe your project in three steps through our quote form.' },
       { q: 'Can you provide hostesses and staff for my event?', a: 'Yes. We recruit through castings with a transparent selection panel, then train hostesses, stewards, sales reps, brand ambassadors and technicians before deploying them for you.' },
       { q: 'What is Notice Immo & Building?', a: 'Since 2020, it has been our arm dedicated to design and construction: building engineering, electrical works, home automation, air conditioning, plumbing, solar photovoltaic energy, plus a full range of real estate services.' },
@@ -620,7 +622,7 @@ export const en: Content = {
     lead: 'Notice International was born from a long observation of companies: as competition moves at unprecedented speed, only those who anticipate and innovate get heard. That is what we are here for.',
     preambleTitle: 'Preamble',
     preamble:
-      'Whether you need to reduce uncertainty, give your business fresh momentum, strengthen your reputation, increase your visibility, generate qualified leads, build customer loyalty or conquer new markets, Notice International helps you reach your goals and brings, through its services, a new breath to optimise the quality of your actions. We put a dynamic team and all our expertise at your disposal to secure your performance.',
+      'Whether you need to reduce uncertainty, give your business fresh momentum, strengthen your reputation, increase your visibility, generate qualified leads, build customer loyalty or conquer new markets, Notice International helps you reach your goals and, through its services, breathes new life into everything you do. We put a dynamic team and all our expertise at your disposal to secure your performance.',
     passionTitle: 'Our passion',
     passion:
       'Since 2000, Notice International has supported companies with their marketing and communication projects: strategy, operations, consulting, creative, web marketing. We combine rigour, method, research, reflection, design and innovation not only to deliver quality work, but above all to meet the most demanding expectations of our clients and partners.',
@@ -639,7 +641,7 @@ export const en: Content = {
       { title: 'Rigour', text: 'Proven methods, commitments kept, results measured.' },
       { title: 'Listening', text: 'Understand before proposing. Your market, your targets, your constraints.' },
       { title: 'Creativity', text: 'Ideas that surprise, executions that stick.' },
-      { title: 'Innovation', text: 'Anticipate the change of pace rather than endure it.' },
+      { title: 'Innovation', text: 'Anticipate change rather than endure it.' },
     ],
     identityTitle: 'Company identity',
   },
@@ -663,7 +665,7 @@ export const en: Content = {
     formTitle: 'Write to us',
     channelsTitle: 'Direct channels',
     hoursTitle: 'Opening hours',
-    weekdaysLabel: 'Monday — Friday',
+    weekdaysLabel: 'Monday to Friday',
     saturdayLabel: 'Saturday',
     sundayLabel: 'Sunday',
     closed: 'Closed',
@@ -717,7 +719,7 @@ export const en: Content = {
   quotePage: {
     kicker: 'Free quote',
     title: 'Tell us about your project.',
-    lead: 'Three steps, two minutes. We come back with a tailored proposal, no strings attached.',
+    lead: 'Three steps, two minutes. We’ll get back to you with a tailored proposal, no strings attached.',
     steps: ['Your needs', 'Your project', 'Your details'],
     servicesLabel: 'What do you need? (select all that apply)',
     descriptionLabel: 'Describe your project',
@@ -730,7 +732,34 @@ export const en: Content = {
     budgets: ['Under 1M FCFA', '1 to 5M FCFA', '5 to 20M FCFA', '20 to 50M FCFA', 'Over 50M FCFA', 'To be defined together'],
     cityLabel: 'City',
     successTitle: 'Thank you — your project is in good hands.',
-    successText: 'We are reviewing your request and will come back to you very soon with a proposal.',
+    successText: 'We are reviewing your request and will get back to you very soon with a proposal.',
+  },
+
+  newsPage: {
+    kicker: 'News',
+    title: 'What’s new with us.',
+    lead: 'Campaigns, events, building projects, insights: follow life at the agency and at Notice Immo & Building.',
+    all: 'All',
+    categories: {
+      agence: 'The agency',
+      evenement: 'Events',
+      realisation: 'Case studies',
+      conseil: 'Insights',
+      immo: 'Immo & Building',
+    },
+    empty: 'Our first news stories are coming very soon. In the meantime, explore our work.',
+    readMore: 'Read the article',
+    minutes: 'min read',
+    published: 'Published on',
+    back: 'All news',
+    share: 'Share',
+    copy: 'Copy link',
+    copied: 'Link copied',
+    latestLabel: 'News',
+    latestTitle: 'The latest from the agency.',
+    related: 'Read next',
+    ctaTitle: 'Got a project in mind?',
+    ctaText: 'Let’s talk: we’ll get back to you quickly, with ideas.',
   },
 
   careersPage: {
@@ -816,7 +845,7 @@ export const en: Content = {
     launcher: 'A question? Ask Echo',
     teaser: 'Hello! I’m Echo, Notice International’s assistant. A question about our services, a quote, a meeting? I’ll point you the right way.',
     introKicker: 'Echo · your assistant',
-    introTitle: 'Get yourself heard.',
+    introTitle: 'Make yourself heard.',
     introText: 'Services, work, solar, meetings, quotes… Ask away: I answer straight away and, when needed, I put you in touch with management.',
     chips: ['What do you offer?', 'I’d like a quote', 'Book a meeting', 'Install solar power', 'Where are you located?', 'Talk to the director'],
     placeholder: 'Type your message…',
@@ -913,7 +942,7 @@ This notice is governed by Cameroonian law, including Law No. 2010/012 of 21 Dec
     privacy: {
       title: 'Privacy policy',
       body: `## Our commitment
-NOTICE INTERNATIONAL takes the protection of your personal data seriously. This policy explains what data we collect, why, how long we keep it and what your rights are. It follows Cameroonian legislation on personal data protection and cybersecurity and, for our European visitors, the General Data Protection Regulation (GDPR).
+NOTICE INTERNATIONAL takes the protection of your personal data seriously. This policy explains what data we collect, why, how long we keep it and what your rights are. It complies with **Cameroon’s Law No. 2024/017 of 23 December 2024 on the protection of personal data**, Law No. 2010/012 of 21 December 2010 on cybersecurity and cybercrime and, for our European visitors, the General Data Protection Regulation (GDPR).
 
 ## Data controller
 NOTICE INTERNATIONAL — Rue Palais Dika, Akwa, Douala, Cameroon — {email}
@@ -936,7 +965,7 @@ We only collect data you choose to give us:
 Your data is never sold or rented, and never used for third-party marketing.
 
 ## Recipients
-Your data is intended solely for authorised NOTICE INTERNATIONAL staff. It is hosted by our technical processors, bound by strict confidentiality and security obligations: Vercel Inc. (website hosting), Supabase Inc. (database hosted in the European Union) and, where applicable, our e-mail delivery provider. As some of these providers may be located outside Cameroon, such transfers are governed by appropriate contractual safeguards.
+Your data is intended solely for authorised NOTICE INTERNATIONAL staff. It is hosted by our technical processors, bound by strict confidentiality and security obligations: Vercel Inc. (website hosting), Supabase Inc. (database hosted in the European Union), Resend Inc. (notification and acknowledgement e-mails) and, for the Echo assistant, Anthropic PBC. As some of these providers may be located outside Cameroon, such transfers are governed by appropriate contractual safeguards.
 
 ## Echo assistant
 The “Echo” chat assistant answers your questions using the information published on this website. Your messages are used solely to compose the answer: they are not stored in our database, and the conversation is only kept in your browser for the duration of your visit. When the assistant relies on an artificial intelligence model, your messages are sent in encrypted form to our processor Anthropic PBC, which handles them on our behalf. Please do not enter sensitive information. Voice dictation, if you turn it on, uses your browser’s speech recognition service.
@@ -946,12 +975,13 @@ The “Echo” chat assistant answers your questions using the information publi
 - Job applications: 2 years, unless you ask for earlier deletion.
 - Newsletter: until you unsubscribe.
 - Traffic statistics: 24 months maximum, in aggregated form.
+- Weekly security backups: 12 months maximum, after which they are destroyed.
 
 ## Security
 The site is served exclusively over HTTPS, with a strict content security policy that blocks any third-party script. Access to data is restricted by named accounts, roles and database-level security rules; passwords are encrypted, admin sessions close after a period of inactivity, form submissions are rate-limited to block abuse, and every content change is logged.
 
 ## Your rights
-You have the right to access, rectify, erase, object to, restrict and port your data, and to withdraw your consent at any time. To exercise these rights, write to {email} stating your request; we will respond within one month. You may also contact the competent data protection authority.
+You have the right to access, rectify, erase, object to, restrict and port your data, and to withdraw your consent at any time. To exercise these rights, write to {email} stating your request; we will respond within one month. If you believe your rights have not been respected, you may lodge a complaint with the Personal Data Protection Authority established by Law No. 2024/017 and, if you live in the European Union, with your country’s supervisory authority.
 
 ## Minors
 This site is intended for professionals and adults. We do not knowingly collect data about minors.
@@ -968,7 +998,9 @@ A cookie is a small file stored on your device when you visit a website. It reme
 **Strictly necessary — always on**
 - *NEXT_LOCALE*: remembers your chosen language (12 months).
 - *ni-consent*: remembers your cookie choices (6 months, local storage).
-- Session cookies for the administration area, reserved for authorised staff.
+- *ni-theme*: remembers your chosen appearance — Signature, Light, Dark or Automatic (local storage, until you change it).
+- *ni-echo*: keeps your conversation with the Echo assistant during your visit (session storage, cleared when you close the tab).
+- Administration area session, reserved for authorised staff.
 
 **Audience measurement — subject to your consent**
 - Vercel Web Analytics and Speed Insights: anonymous, aggregated traffic and performance statistics. These tools set no advertising cookies and cannot identify you.

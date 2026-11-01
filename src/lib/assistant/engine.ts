@@ -205,6 +205,17 @@ export function localReply(message: string, locale: Locale, c: Content, s: Setti
     };
   }
 
+  if (has(q, /\b(actualites?|nouveautes?|quoi de neuf|dernieres nouvelles|blog|news|what s new|latest)\b/)) {
+    const latest = docs.filter((d) => d.id.startsWith('news:')).slice(0, 3);
+    return {
+      text: latest.length
+        ? T(`Nos dernières actualités :\n${latest.map((d) => `- **${d.title}**`).join('\n')}`, `Our latest news:\n${latest.map((d) => `- **${d.title}**`).join('\n')}`)
+        : T('Nos actualités arrivent très bientôt. En attendant, nos réalisations racontent notre travail.', 'Our news stories are coming soon. In the meantime, our case studies tell our story.'),
+      actions: latest.length ? ['news', ...latest.slice(0, 2).map((d) => d.id)] : ['news', 'work'],
+      handoff: 'none', suggestions: [sugg.work, sugg.services],
+    };
+  }
+
   // 5. Recherche dans la base (expertise, réalisation, client, FAQ…)
   const hits = retrieve(message, docs);
   const topic = topicOf(q);

@@ -8,12 +8,13 @@ import { Logo } from '../brand/Logo';
 import { ContentHome, SectionEditor } from './ContentEditor';
 import { Inbox } from './Inbox';
 import { Media } from './Media';
+import { Posts } from './Posts';
 import { Users } from './Users';
 import { KIND_LABEL, ROLE_LABEL } from './labels';
 import { errorMessage, sb, type Profile, type Submission } from './supabase';
 import { AdminButton, Spinner, ToastProvider, useToast } from './ui';
 
-type View = 'dashboard' | 'content' | 'inbox' | 'media' | 'users' | 'account';
+type View = 'dashboard' | 'content' | 'news' | 'inbox' | 'media' | 'users' | 'account';
 
 export function AdminApp() {
   return <ToastProvider><Gate /></ToastProvider>;
@@ -182,6 +183,7 @@ const NAV: Array<{ id: View; label: string; admin?: boolean }> = [
   { id: 'dashboard', label: 'Tableau de bord' },
   { id: 'inbox', label: 'Demandes' },
   { id: 'content', label: 'Contenus' },
+  { id: 'news', label: 'Actualités' },
   { id: 'media', label: 'Médiathèque' },
   { id: 'users', label: 'Équipe & accès', admin: true },
   { id: 'account', label: 'Mon compte' },
@@ -261,6 +263,7 @@ function Shell({ me, reload }: { me: Profile; reload: () => void }) {
         {route.view === 'dashboard' && <Dashboard me={me} go={go} />}
         {route.view === 'inbox' && <Inbox canDelete={isAdmin} onCount={setNewCount} />}
         {route.view === 'content' && (route.section ? <SectionEditor section={route.section} initialLocale="fr" onBack={() => go('content')} /> : <ContentHome onOpen={(s) => go('content', s)} />)}
+        {route.view === 'news' && <Posts canDelete={isAdmin} />}
         {route.view === 'media' && <Media />}
         {route.view === 'users' && isAdmin && <Users me={me} />}
         {route.view === 'account' && <Account me={me} reload={reload} />}
@@ -331,6 +334,7 @@ function Dashboard({ me, go }: { me: Profile; go: (v: View, s?: string) => void 
       </div>
       <div className="flex flex-wrap gap-3">
         <AdminButton tone="primary" onClick={() => go('content')}>Modifier les contenus</AdminButton>
+        <AdminButton onClick={() => go('news')}>Écrire une actualité</AdminButton>
         <AdminButton onClick={() => go('content', 'work')}>Ajouter une réalisation</AdminButton>
         <AdminButton onClick={() => go('content', 'settings')}>Coordonnées & réseaux sociaux</AdminButton>
       </div>

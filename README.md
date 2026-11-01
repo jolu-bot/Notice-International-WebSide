@@ -19,6 +19,7 @@ Site bilingue (FR/EN) avec espace d’administration intégré. Conception & dé
 | Prise de rendez-vous (agenda) | `/fr/rendez-vous` | `/en/appointment` |
 | Demande de devis (3 étapes) | `/fr/devis` | `/en/quote` |
 | Carrières & casting | `/fr/carrieres` | `/en/careers` |
+| Actualités (+ une page par article) | `/fr/actualites/…` | `/en/news/…` |
 | Mentions légales · Confidentialité · Cookies · CGU | `/fr/mentions-legales` … | `/en/legal-notice` … |
 | **Administration** (aussi `/connexion`, `/login`) | `/admin` | |
 
@@ -42,6 +43,7 @@ Connexion par e-mail + mot de passe. À la première connexion, chacun choisit s
 - **Demandes** : messages, rendez-vous, devis, candidatures, inscriptions — filtres, recherche, statuts, notes internes, réponse en un clic (e-mail, WhatsApp, téléphone), export CSV (Excel).
 - **Contenus** : *tous* les textes du site, en français et en anglais, section par section — titres, accroches, expertises, réalisations (ajout, suppression, réordonnancement, galeries), équipe (photos), FAQ, SEO, pages légales… Chaque enregistrement est **publié immédiatement** et **historisé** (bouton « Historique » pour restaurer une version, « Rétablir l’origine » pour revenir aux textes livrés).
 - **Paramètres généraux** : téléphones, numéros WhatsApp, e-mail, adresse, **liens des réseaux sociaux** (X, Instagram, Facebook, TikTok, LinkedIn, YouTube), horaires et créneaux de rendez-vous, informations légales.
+- **Actualités** : rédaction bilingue (le français suffit, l’anglais est facultatif), image de couverture, catégorie, aperçu, brouillon, publication immédiate ou **programmée** à une date future. Les trois derniers articles apparaissent sur l’accueil ; Écho les connaît.
 - **Médiathèque** : glisser-déposer d’images (optimisées automatiquement en WebP), PDF, vidéos.
 - **Équipe & accès** : donner un accès à une personne (Propriétaire / Administrateur / Éditeur), générer un nouveau mot de passe, désactiver un accès.
 
@@ -74,6 +76,11 @@ src/
   components/           fx (animations), sections, forms, admin, brand (logo vectoriel)
 ```
 
+## Sauvegarde & surveillance
+
+- **Sauvegarde hebdomadaire** — chaque lundi à 3 h (heure de Douala), Vercel appelle `/api/cron/backup` (planifié dans `vercel.json`) : une copie complète de la base (contenus, actualités, demandes, historique, comptes, liste des médias) part par e-mail en pièce jointe JSON vers `BACKUP_TO` (à défaut `CONTACT_TO`). Gardez ces e-mails dans un dossier dédié et supprimez ceux de plus de 12 mois (engagement de la politique de confidentialité).
+- **Surveillance** — `.github/workflows/surveillance.yml` vérifie toutes les 15 minutes l’accueil, le contact et `/api/health` (site + base). En cas de panne, une *issue* GitHub « Site indisponible » est ouverte (e-mail automatique au propriétaire du dépôt) puis refermée au retour du site. GitHub suspend les tâches planifiées après 60 jours sans activité sur le dépôt : un simple commit, ou « Enable workflow » dans l’onglet *Actions*, les relance.
+
 ## Variables d’environnement
 
 Voir `.env.example`.
@@ -86,6 +93,8 @@ Voir `.env.example`.
 | `RESEND_API_KEY` + `MAIL_FROM` | Envoi d’e-mails soignés + accusé de réception au visiteur (recommandé) |
 | `SMTP_HOST` / `SMTP_PORT` / `SMTP_USER` / `SMTP_PASS` | Alternative : SMTP de votre messagerie |
 | `ANTHROPIC_API_KEY` | Facultatif — rend l’assistant Écho pleinement conversationnel (Claude) |
+| `CRON_SECRET` / `BACKUP_TOKEN` | Sauvegarde hebdomadaire (le jeton est généré dans la base, table `private.secrets`) |
+| `BACKUP_TO` | Facultatif — destinataire des sauvegardes (par défaut `CONTACT_TO`) |
 | `ASSISTANT_MODEL` | Facultatif — modèle utilisé par Écho (par défaut `claude-opus-5-5`) |
 
 **Sans clé d’envoi**, les demandes sont toujours enregistrées dans `/admin → Demandes`, et une notification est relayée par FormSubmit : **le tout premier envoi déclenche un e-mail d’activation à `contact@noticeinternational.com` — il faut cliquer sur le lien une fois.**

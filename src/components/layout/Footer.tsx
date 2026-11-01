@@ -12,7 +12,7 @@ import { UserLock } from '../ui/Icons';
 export function Footer({ locale, c, settings }: { locale: Locale; c: Content; settings: Settings }) {
   const f = c.footer;
   const year = new Date().getFullYear();
-  const explore = (['agency', 'services', 'immo', 'work', 'appointment', 'quote', 'careers', 'contact'] as const).map((k) => ({ k, label: c.nav[k] }));
+  const explore = (['agency', 'services', 'immo', 'work', 'news', 'appointment', 'quote', 'careers', 'contact'] as const).map((k) => ({ k, label: c.nav[k] }));
   return (
     <footer className="theme-dark relative overflow-hidden" role="contentinfo">
       {/* Appel final */}

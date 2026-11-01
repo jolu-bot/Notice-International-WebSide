@@ -130,7 +130,7 @@ export function ImageField({ label, value, onChange }: { label: string; value: s
           <div className="flex flex-wrap gap-2">
             <label className="inline-flex h-9 cursor-pointer items-center gap-2 rounded-full border border-[var(--line)] px-4 text-xs font-bold hover:border-[var(--fg)]">
               {busy ? <Spinner /> : '⬆'} Envoyer une image
-              <input type="file" accept="image/*" className="sr-only" onChange={(e) => onFile(e.target.files?.[0])} />
+              <input type="file" accept="image/jpeg,image/png,image/webp,image/avif,image/gif" className="sr-only" onChange={(e) => onFile(e.target.files?.[0])} />
             </label>
             <AdminButton small onClick={() => setPicker(true)}>Médiathèque</AdminButton>
           </div>

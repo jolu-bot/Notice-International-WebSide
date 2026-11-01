@@ -1,11 +1,13 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { getContent, getSettings, yearsSince } from '@/lib/content';
+import { getPosts } from '@/lib/posts';
 import { href, isLocale } from '@/lib/i18n';
 import { faqJsonLd, pageMetadata } from '@/lib/seo';
 import { Hero } from '@/components/home/Hero';
 import { ClientsWall, Faq, Manifesto, Method, SectionHead, Stats, Team, Universes, VerbsMarquee, Why, WorkRail } from '@/components/sections/Sections';
 import { ServiceList } from '@/components/sections/ServiceList';
+import { LatestNews } from '@/components/sections/News';
 import { Showreel } from '@/components/sections/Showreel';
 import { JsonLd } from '@/components/ui/JsonLd';
 
@@ -20,7 +22,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 export default async function HomePage({ params }: Props) {
   const { locale } = await params;
   if (!isLocale(locale)) notFound();
-  const [c, s] = await Promise.all([getContent(locale), getSettings()]);
+  const [c, s, posts] = await Promise.all([getContent(locale), getSettings(), getPosts(locale, 3)]);
   const tokens = { years: yearsSince(s.brand.foundingYear), clients: c.clients.items.length };
 
   return (
@@ -40,6 +42,7 @@ export default async function HomePage({ params }: Props) {
       <Showreel t={c.showreel} />
       <WorkRail t={c.work} locale={locale} common={c.common} />
       <ClientsWall t={c.clients} />
+      <LatestNews posts={posts} t={c.newsPage} locale={locale} seeAll={c.common.seeAll} />
       <Why t={c.why} />
       <Team t={c.team} />
       <Faq t={c.faq} />

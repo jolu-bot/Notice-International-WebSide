@@ -22,6 +22,7 @@ export const fr = {
       contact: { title: 'Contact & plan d’accès — Akwa, Douala', description: 'Écrivez-nous, appelez-nous ou passez nous voir à Akwa, rue Palais Dika, près de l’Hôpital Laquintinie. Réponse rapide, WhatsApp direct.' },
       appointment: { title: 'Prendre rendez-vous en ligne', description: 'Choisissez votre date, votre créneau et votre format — à l’agence, en visio, par téléphone ou dans vos locaux. Confirmation rapide.' },
       quote: { title: 'Demander un devis gratuit', description: 'Décrivez votre projet en trois étapes : nous revenons vers vous avec une proposition sur mesure, sans engagement.' },
+      news: { title: 'Actualités — campagnes, événements & chantiers', description: 'Les dernières nouvelles de Notice International et de Notice Immo & Building : campagnes, événements, réalisations, conseils et chantiers.' },
       careers: { title: 'Carrières & casting — rejoignez nos équipes', description: 'Hôtesses, stewards, animateurs, commerciaux, techniciens, créatifs : déposez votre candidature auprès de Notice International.' },
       legal: { title: 'Mentions légales', description: 'Mentions légales du site de Notice International.' },
       privacy: { title: 'Politique de confidentialité', description: 'Comment Notice International collecte, utilise et protège vos données personnelles.' },
@@ -40,6 +41,7 @@ export const fr = {
     appointment: 'Rendez-vous',
     quote: 'Devis',
     careers: 'Carrières',
+    news: 'Actualités',
     menu: 'Menu',
     close: 'Fermer',
     cta: 'Prendre rendez-vous',
@@ -763,6 +765,33 @@ export const fr = {
     successText: 'Nous étudions votre demande et revenons vers vous très rapidement avec une proposition.',
   },
 
+  newsPage: {
+    kicker: 'Actualités',
+    title: 'Ce qui se dit chez nous.',
+    lead: 'Campagnes, événements, chantiers, conseils : suivez la vie de l’agence et de Notice Immo & Building.',
+    all: 'Tout',
+    categories: {
+      agence: 'L’agence',
+      evenement: 'Événements',
+      realisation: 'Réalisations',
+      conseil: 'Conseils',
+      immo: 'Immo & Building',
+    },
+    empty: 'Nos premières actualités arrivent très bientôt. En attendant, découvrez nos réalisations.',
+    readMore: 'Lire l’article',
+    minutes: 'min de lecture',
+    published: 'Publié le',
+    back: 'Toutes les actualités',
+    share: 'Partager',
+    copy: 'Copier le lien',
+    copied: 'Lien copié',
+    latestLabel: 'Actualités',
+    latestTitle: 'Les dernières nouvelles de l’agence.',
+    related: 'À lire aussi',
+    ctaTitle: 'Un projet en tête ?',
+    ctaText: 'Parlons-en : nous vous répondons rapidement, avec des idées.',
+  },
+
   careersPage: {
     kicker: 'Carrières & casting',
     title: 'Faites-vous entendre… chez nous.',
@@ -943,7 +972,7 @@ Les présentes mentions sont régies par le droit camerounais, notamment la loi 
     privacy: {
       title: 'Politique de confidentialité',
       body: `## Notre engagement
-NOTICE INTERNATIONAL attache une importance particulière à la protection de vos données personnelles. La présente politique explique quelles données nous collectons, pourquoi, combien de temps nous les conservons et quels sont vos droits. Elle s’inscrit dans le cadre de la législation camerounaise relative à la protection des données à caractère personnel et à la cybersécurité, et respecte, pour nos visiteurs européens, le Règlement général sur la protection des données (RGPD).
+NOTICE INTERNATIONAL attache une importance particulière à la protection de vos données personnelles. La présente politique explique quelles données nous collectons, pourquoi, combien de temps nous les conservons et quels sont vos droits. Elle est établie conformément à la **loi n° 2024/017 du 23 décembre 2024 portant protection des données à caractère personnel au Cameroun**, à la loi n° 2010/012 du 21 décembre 2010 relative à la cybersécurité et à la cybercriminalité et, pour nos visiteurs européens, au Règlement général sur la protection des données (RGPD).
 
 ## Responsable du traitement
 NOTICE INTERNATIONAL — Rue Palais Dika, Akwa, Douala, Cameroun — {email}
@@ -966,7 +995,7 @@ Nous ne collectons que les données que vous nous transmettez volontairement :
 Vos données ne sont jamais vendues ni louées, et ne sont jamais utilisées à des fins de prospection par des tiers.
 
 ## Destinataires
-Vos données sont destinées exclusivement aux équipes habilitées de NOTICE INTERNATIONAL. Elles sont hébergées par nos sous-traitants techniques, tenus à des obligations strictes de confidentialité et de sécurité : Vercel Inc. (hébergement du site), Supabase Inc. (base de données hébergée dans l’Union européenne) et, le cas échéant, notre prestataire d’envoi d’e-mails. Certains de ces prestataires pouvant être situés hors du Cameroun, ces transferts sont encadrés par des garanties contractuelles appropriées.
+Vos données sont destinées exclusivement aux équipes habilitées de NOTICE INTERNATIONAL. Elles sont hébergées par nos sous-traitants techniques, tenus à des obligations strictes de confidentialité et de sécurité : Vercel Inc. (hébergement du site), Supabase Inc. (base de données hébergée dans l’Union européenne), Resend Inc. (envoi des e-mails de notification et d’accusé de réception) et, pour l’assistant Écho, Anthropic PBC. Certains de ces prestataires pouvant être situés hors du Cameroun, ces transferts sont encadrés par des garanties contractuelles appropriées.
 
 ## Assistant Écho
 L’assistant conversationnel « Écho » répond à vos questions à partir des informations publiées sur ce site. Vos messages servent uniquement à formuler la réponse : ils ne sont pas enregistrés dans notre base de données et la conversation n’est conservée que dans votre navigateur, le temps de votre visite. Lorsque l’assistant s’appuie sur un modèle d’intelligence artificielle, vos messages sont transmis de façon chiffrée à notre prestataire Anthropic PBC, qui les traite pour notre compte. N’y saisissez pas d’informations sensibles. La dictée vocale, si vous l’activez, utilise le service de reconnaissance de votre navigateur.
@@ -976,12 +1005,13 @@ L’assistant conversationnel « Écho » répond à vos questions à partir des
 - Candidatures : 2 ans, sauf demande de suppression anticipée.
 - Lettre d’information : jusqu’à votre désinscription.
 - Statistiques de fréquentation : 24 mois maximum, sous forme agrégée.
+- Copies de sauvegarde de sécurité (hebdomadaires) : 12 mois maximum, après quoi elles sont détruites.
 
 ## Sécurité
 Le site est servi exclusivement en HTTPS, avec une politique de sécurité du contenu stricte qui interdit tout script tiers. L’accès aux données est restreint par des comptes nominatifs, des rôles et des règles de sécurité au niveau de la base de données ; les mots de passe sont chiffrés, les sessions d’administration se ferment après une période d’inactivité, les envois de formulaires sont limités pour bloquer les abus et chaque modification de contenu est historisée.
 
 ## Vos droits
-Vous disposez d’un droit d’accès, de rectification, d’effacement, d’opposition, de limitation et de portabilité de vos données, ainsi que du droit de retirer votre consentement à tout moment. Pour les exercer, écrivez-nous à {email} en précisant votre demande ; une réponse vous sera apportée dans un délai d’un mois. Vous pouvez également saisir l’autorité de protection des données compétente.
+Vous disposez d’un droit d’accès, de rectification, d’effacement, d’opposition, de limitation et de portabilité de vos données, ainsi que du droit de retirer votre consentement à tout moment. Pour les exercer, écrivez-nous à {email} en précisant votre demande ; une réponse vous sera apportée dans un délai d’un mois. Si vous estimez que vos droits ne sont pas respectés, vous pouvez saisir l’Autorité de protection des données à caractère personnel instituée par la loi n° 2024/017 et, si vous résidez dans l’Union européenne, l’autorité de contrôle de votre pays.
 
 ## Mineurs
 Le site s’adresse aux professionnels et aux adultes. Nous ne collectons pas sciemment de données concernant des mineurs.
@@ -998,7 +1028,9 @@ Un cookie est un petit fichier déposé sur votre appareil lors de la consultati
 **Strictement nécessaires — toujours actifs**
 - *NEXT_LOCALE* : mémorise la langue choisie (12 mois).
 - *ni-consent* : mémorise vos choix en matière de cookies (6 mois, stockage local).
-- Cookies de session de l’espace d’administration, réservés aux personnes habilitées.
+- *ni-theme* : mémorise l’apparence choisie — Signature, Clair, Sombre ou Automatique (stockage local, jusqu’à ce que vous la changiez).
+- *ni-echo* : conserve votre conversation avec l’assistant Écho le temps de la visite (stockage de session, effacé à la fermeture de l’onglet).
+- Session de l’espace d’administration, réservée aux personnes habilitées.
 
 **Mesure d’audience — soumise à votre accord**
 - Vercel Web Analytics et Speed Insights : statistiques anonymes et agrégées de fréquentation et de performance. Ces outils ne déposent pas de cookie publicitaire et ne permettent pas de vous identifier.

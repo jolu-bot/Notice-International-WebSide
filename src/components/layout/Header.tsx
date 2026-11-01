@@ -17,7 +17,7 @@ import { ThemeMenu, ThemeSwitch } from '../fx/Theme';
 type Props = { locale: Locale; nav: Content['nav']; easter: Content['easter']; settings: Settings };
 
 const MAIN: RouteKey[] = ['agency', 'services', 'immo', 'work', 'contact'];
-const MENU: RouteKey[] = ['home', 'agency', 'services', 'immo', 'work', 'appointment', 'quote', 'careers', 'contact'];
+const MENU: RouteKey[] = ['home', 'agency', 'services', 'immo', 'work', 'news', 'appointment', 'quote', 'careers', 'contact'];
 
 export function Header({ locale, nav, easter, settings }: Props) {
   const pathname = usePathname();

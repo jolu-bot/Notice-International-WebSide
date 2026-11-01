@@ -1,15 +1,23 @@
 import { Fragment, type ReactNode } from 'react';
 
-/** Rendu Markdown minimal et sûr (titres ##, listes -, paragraphes, **gras**, *italique*) — sans HTML brut. */
+/** Rendu Markdown minimal et sûr (titres ##, listes -, paragraphes, **gras**, *italique*, [liens](https://…)) — sans HTML brut. */
+// Liens autorisés : web, e-mail, téléphone et pages du site — jamais de javascript: ni data:
+const SAFE_URL = /^(https?:\/\/|mailto:|tel:|\/(?!\/))/i;
+
 function inline(text: string): ReactNode[] {
   const out: ReactNode[] = [];
-  const re = /\*\*(.+?)\*\*|\*(.+?)\*/g;
+  const re = /\*\*(.+?)\*\*|\*(.+?)\*|\[([^\]]+)\]\(([^)\s]+)\)/g;
   let last = 0;
   let m: RegExpExecArray | null;
   let i = 0;
   while ((m = re.exec(text))) {
     if (m.index > last) out.push(text.slice(last, m.index));
-    out.push(m[1] ? <strong key={i++}>{m[1]}</strong> : <em key={i++}>{m[2]}</em>);
+    if (m[1]) out.push(<strong key={i++}>{m[1]}</strong>);
+    else if (m[2]) out.push(<em key={i++}>{m[2]}</em>);
+    else if (SAFE_URL.test(m[4])) {
+      const external = /^https?:/.test(m[4]);
+      out.push(<a key={i++} href={m[4]} className="link-underline font-semibold text-[var(--fg)]" {...(external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}>{m[3]}</a>);
+    } else out.push(m[3]);
     last = m.index + m[0].length;
   }
   if (last < text.length) out.push(text.slice(last));

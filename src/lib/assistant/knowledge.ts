@@ -2,6 +2,7 @@ import 'server-only';
 import type { Content } from '@/content/fr';
 import type { Settings } from '@/content/settings';
 import { href, type Locale, type RouteKey } from '@/lib/i18n';
+import type { Post } from '@/lib/posts';
 
 /**
  * Base de connaissances d'Écho, reconstruite à partir des contenus du site
@@ -10,7 +11,7 @@ import { href, type Locale, type RouteKey } from '@/lib/i18n';
 export type Doc = { id: string; title: string; text: string; href?: string; action?: string };
 
 /** Destinations autorisées : l'assistant ne peut proposer que ces liens, jamais une adresse inventée. */
-export const PAGE_ACTIONS: RouteKey[] = ['home', 'agency', 'services', 'immo', 'work', 'contact', 'appointment', 'quote', 'careers', 'privacy'];
+export const PAGE_ACTIONS: RouteKey[] = ['home', 'agency', 'services', 'immo', 'work', 'news', 'contact', 'appointment', 'quote', 'careers', 'privacy'];
 
 export type Action = { id: string; label: string; href: string };
 
@@ -19,6 +20,9 @@ export function resolveAction(id: string, locale: Locale, c: Content): Action | 
   if (kind === 'service' && slug) {
     const s = c.services.items.find((x) => x.slug === slug);
     return s ? { id, label: s.title, href: href(locale, 'services', s.slug) } : null;
+  }
+  if (kind === 'news' && slug) {
+    return { id, label: c.nav.news, href: href(locale, 'news', slug) };
   }
   if (kind === 'work' && slug) {
     const w = c.work.items.find((x) => x.slug === slug);
@@ -34,7 +38,7 @@ export function resolveAction(id: string, locale: Locale, c: Content): Action | 
 
 const clip = (s: string, n = 600) => (s.length > n ? `${s.slice(0, n)}…` : s);
 
-export function buildDocs(locale: Locale, c: Content, s: Settings): Doc[] {
+export function buildDocs(locale: Locale, c: Content, s: Settings, posts: Post[] = []): Doc[] {
   const fr = locale === 'fr';
   const docs: Doc[] = [];
   const years = new Date().getFullYear() - Number(s.brand.foundingYear || 2000);
@@ -84,6 +88,9 @@ export function buildDocs(locale: Locale, c: Content, s: Settings): Doc[] {
     text: [...c.team.members.map((m) => `${m.name} — ${m.role}. ${m.bio}`),
       `${c.team.partner.name} — ${c.team.partner.role}. ${c.team.partner.bio}`].join('\n'),
   });
+  for (const p of posts.slice(0, 12)) {
+    docs.push({ id: `news:${p.slug}`, action: `news:${p.slug}`, title: p.title, text: clip(`${p.date.slice(0, 10)} — ${p.excerpt} ${p.body}`, 480) });
+  }
   for (const f of c.faq.items) docs.push({ id: `faq:${f.q.slice(0, 24)}`, title: f.q, text: f.a });
 
   const w = s.contact.whatsapp;
@@ -130,6 +137,7 @@ export function systemPrompt(locale: Locale, c: Content, s: Settings, docs: Doc[
     ...PAGE_ACTIONS,
     ...c.services.items.map((x) => `service:${x.slug}`),
     ...c.work.items.map((x) => `work:${x.slug}`),
+    ...docs.filter((d) => d.id.startsWith('news:')).map((d) => d.id),
   ];
   return `Tu es « ${c.assistant.name} », l'assistant conversationnel officiel du site de ${s.brand.name} (agence conseil en marketing & communication à Douala, Cameroun, depuis ${s.brand.foundingYear} ; branche ${s.brand.branch} depuis ${s.brand.branchYear} : BTP, énergie solaire photovoltaïque, immobilier). Signature de la marque : « ${s.brand.slogan} ».
 

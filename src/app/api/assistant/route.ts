@@ -4,6 +4,7 @@ import { z } from 'zod';
 import { getContent, getSettings } from '@/lib/content';
 import { clientIp, rateLimited, readJson, sameOrigin, tooLarge } from '@/lib/guard';
 import { buildDocs, resolveAction, systemPrompt } from '@/lib/assistant/knowledge';
+import { getPosts } from '@/lib/posts';
 import { localReply, type Handoff } from '@/lib/assistant/engine';
 
 export const runtime = 'nodejs';
@@ -60,8 +61,8 @@ export async function POST(req: NextRequest) {
   if (!last || last.role !== 'user') return NextResponse.json({ ok: false, error: 'invalid' }, { status: 400 });
 
   const { locale } = body;
-  const [c, s] = await Promise.all([getContent(locale), getSettings()]);
-  const docs = buildDocs(locale, c, s);
+  const [c, s, posts] = await Promise.all([getContent(locale), getSettings(), getPosts(locale)]);
+  const docs = buildDocs(locale, c, s, posts);
   const encoder = new TextEncoder();
 
   const stream = new ReadableStream<Uint8Array>({

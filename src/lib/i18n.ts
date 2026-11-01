@@ -20,6 +20,7 @@ export const ROUTES = {
   appointment: { fr: 'rendez-vous', en: 'appointment' },
   quote: { fr: 'devis', en: 'quote' },
   careers: { fr: 'carrieres', en: 'careers' },
+  news: { fr: 'actualites', en: 'news' },
   legal: { fr: 'mentions-legales', en: 'legal-notice' },
   privacy: { fr: 'confidentialite', en: 'privacy' },
   cookies: { fr: 'cookies', en: 'cookies' },
