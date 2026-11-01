@@ -20,9 +20,15 @@ Site bilingue (FR/EN) avec espace d’administration intégré. Conception & dé
 | Demande de devis (3 étapes) | `/fr/devis` | `/en/quote` |
 | Carrières & casting | `/fr/carrieres` | `/en/careers` |
 | Mentions légales · Confidentialité · Cookies · CGU | `/fr/mentions-legales` … | `/en/legal-notice` … |
-| **Administration** | `/admin` | |
+| **Administration** (aussi `/connexion`, `/login`) | `/admin` | |
 
 **Expérience** : écran d’ouverture (la bouche-logo s’assemble, le compteur remonte de 2000 à aujourd’hui), logo recomposé en milliers de points lumineux qui réagissent au curseur et « parlent », verbes stratégiques animés, défilement fluide, transitions « rideau mosaïque », curseur sur mesure, plan d’accès animé, galerie plein écran, film de marque… Et un secret : **cliquez 7 fois sur le logo**.
+
+**Apparence** : quatre thèmes au choix du visiteur (bouton dans l’en-tête) — *Signature* (l’alternance clair-sombre, par défaut), *Clair*, *Sombre*, *Automatique* (suit l’appareil).
+
+**Écho, l’assistant** : orbe en bas à droite. Il répond en français et en anglais à partir des contenus du site (mis à jour automatiquement avec le CMS), oriente vers la bonne page et passe le relais au CEO ou à son assistante (WhatsApp pré-rempli, appel) quand la demande le dépasse. Dictée vocale. Sans clé d’IA, il fonctionne avec son moteur local ; avec `ANTHROPIC_API_KEY`, il devient pleinement conversationnel (Claude). Ses textes se modifient dans *Contenus → Assistant Écho*.
+
+**Sécurité** : politique de sécurité du contenu stricte (aucun script tiers), en-têtes durcis, contrôle d’origine, limites de taille et de débit sur toutes les API, droits par colonne et anti-spam au niveau de la base, déconnexion de l’administration après 45 min d’inactivité. Signalement de faille : `/.well-known/security.txt`.
 
 **Référencement** : métadonnées par page et par langue, `hreflang`, URL traduites, données structurées Schema.org (Organisation, Service, FAQ, fil d’Ariane, études de cas), `sitemap.xml`, `robots.txt`, `llms.txt` (moteurs IA), images de partage, manifeste PWA.
 
@@ -59,6 +65,9 @@ src/
   app/[locale]/…        pages publiques (dossiers = slugs français, slugs anglais réécrits par src/proxy.ts)
   app/admin/            espace d'administration
   app/api/forms         réception des formulaires (validation, anti-spam, enregistrement, e-mail)
+  app/api/assistant     Écho : réponse en flux (Claude si configuré, moteur local sinon)
+  lib/assistant/        base de connaissances (issue des contenus) et moteur de réponse local
+  lib/guard.ts          protections communes des API (origine, débit, taille)
   app/api/revalidate    publication instantanée après modification
   content/fr.ts|en.ts   textes par défaut (surchargés par ce qui est saisi dans /admin)
   content/settings.ts   coordonnées, réseaux, horaires, légal
@@ -76,6 +85,8 @@ Voir `.env.example`.
 | `CONTACT_TO` | Destinataire des formulaires (`contact@noticeinternational.com`) |
 | `RESEND_API_KEY` + `MAIL_FROM` | Envoi d’e-mails soignés + accusé de réception au visiteur (recommandé) |
 | `SMTP_HOST` / `SMTP_PORT` / `SMTP_USER` / `SMTP_PASS` | Alternative : SMTP de votre messagerie |
+| `ANTHROPIC_API_KEY` | Facultatif — rend l’assistant Écho pleinement conversationnel (Claude) |
+| `ASSISTANT_MODEL` | Facultatif — modèle utilisé par Écho (par défaut `claude-opus-5-5`) |
 
 **Sans clé d’envoi**, les demandes sont toujours enregistrées dans `/admin → Demandes`, et une notification est relayée par FormSubmit : **le tout premier envoi déclenche un e-mail d’activation à `contact@noticeinternational.com` — il faut cliquer sur le lien une fois.**
 
@@ -96,7 +107,7 @@ En local, `DISABLE_MAIL=1` empêche tout envoi d’e-mail pendant les tests.
 
 1. Vercel → projet → *Settings → Domains* → ajouter `www.noticeinternational.com` et `noticeinternational.com`.
 2. Chez le registraire du domaine, créer les enregistrements DNS indiqués par Vercel.
-3. Mettre à jour `NEXT_PUBLIC_SITE_URL` puis redéployer.
+3. Mettre à jour `NEXT_PUBLIC_SITE_URL` puis redéployer. *(Fait : le site est en ligne sur www.noticeinternational.com.)*
 4. Déclarer le site dans **Google Search Console** et soumettre `https://www.noticeinternational.com/sitemap.xml`.
 
 ---

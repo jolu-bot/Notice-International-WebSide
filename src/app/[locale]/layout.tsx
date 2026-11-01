@@ -13,7 +13,7 @@ import { RouteShell } from '@/components/fx/RouteShell';
 import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
 import { WhatsAppFab } from '@/components/layout/WhatsAppFab';
-import { Echo } from '@/components/assistant/Echo';
+import { EchoLazy } from '@/components/assistant/EchoLazy';
 import { ConsentProvider } from '@/components/consent/Consent';
 import { JsonLd } from '@/components/ui/JsonLd';
 import { THEME_INIT } from '@/lib/theme';
@@ -75,7 +75,7 @@ export default async function LocaleLayout({ children, params }: { children: Rea
             <main id="main"><RouteShell>{children}</RouteShell></main>
             <Footer key={locale} locale={locale} c={c} settings={settings} />
             <WhatsAppFab t={c.whatsapp} settings={settings} />
-            <Echo key={locale} locale={locale} t={c.assistant} settings={settings} privacyHref={href(locale, 'privacy')} />
+            <EchoLazy key={locale} locale={locale} t={c.assistant} settings={settings} privacyHref={href(locale, 'privacy')} />
           </ConsentProvider>
         </Experience>
         <div className="grain" aria-hidden />

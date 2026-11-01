@@ -12,7 +12,7 @@ next-env.d.ts
 .env.*.local
 .vercel
 
-# sources brutes du client (trop volumineuses pour Git — conservées hors dépôt)
+# sources brutes du client (trop volumineuses pour Git — rangées dans « Notice International - documents sources »)
 /*.pptx
 /*.pdf
 /*.mp4

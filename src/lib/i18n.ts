@@ -33,12 +33,6 @@ export function href(locale: Locale, key: RouteKey, sub?: string): string {
   return `/${locale}${slug ? `/${slug}` : ''}${sub ? `/${sub}` : ''}`;
 }
 
-/** Slug public (dans la langue) → slug interne (dossier français). */
-export function toInternalSlug(locale: Locale, slug: string): string | null {
-  for (const r of Object.values(ROUTES)) if (r[locale] === slug) return r.fr;
-  return null;
-}
-
 /** Retrouve la clé de route à partir d'un slug, quelle que soit la langue. */
 export function routeKeyFromSlug(slug: string): RouteKey | null {
   for (const [key, r] of Object.entries(ROUTES)) if (r.fr === slug || r.en === slug) return key as RouteKey;
